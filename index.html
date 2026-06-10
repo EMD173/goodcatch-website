@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoodCatch — Catch them being good. School behavior support that leads with recognition.</title>
+<meta name="description" content="GoodCatch is a mobile-first PBIS behavior platform. Teachers log recognition in three taps or by voice, the app turns restorative documentation into required district paperwork, and AI handles the reports, certificates, and notes home. FERPA-first. Built by an educator. A 4 Black Centuries LLC product.">
+<meta property="og:title" content="GoodCatch — Catch them being good.">
+<meta property="og:description" content="The school behavior platform that makes recognition the path of least resistance. Three-tap logging, restorative documentation, one-tap AI reports. FERPA-first.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --ink:#10231c;
+    --ink-soft:#3d5249;
+    --green:#1b7a3d;
+    --green-deep:#0e5429;
+    --green-tint:#e7f4ec;
+    --paper:#fbfdfb;
+    --card:#ffffff;
+    --line:#dfe9e2;
+    --amber:#a8410d;
+    --amber-tint:#fdf0e7;
+    --navy:#0f2e45;
+    --maxw:1080px;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--green-deep);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;top:0;z-index:50;background:rgba(251,253,251,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;color:var(--ink);text-decoration:none;letter-spacing:-.02em;}
+  .logo-mark{
+    width:32px;height:32px;border-radius:9px;background:var(--green);
+    display:inline-flex;align-items:center;justify-content:center;
+    color:#fff;font-size:1.05rem;font-weight:900;flex:0 0 auto;
+  }
+  .nav-links{display:flex;gap:26px;align-items:center;list-style:none;}
+  .nav-links a{color:var(--ink-soft);text-decoration:none;font-size:.95rem;font-weight:600;}
+  .nav-links a:hover{color:var(--green-deep);}
+  .nav-cta{
+    background:var(--green);color:#fff !important;padding:9px 18px;border-radius:999px;
+    font-weight:700;
+  }
+  .nav-cta:hover{background:var(--green-deep);}
+  @media(max-width:760px){.nav-links li:not(.keep){display:none;}}
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 56px;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;background:var(--green-tint);
+    color:var(--green-deep);font-weight:700;font-size:.85rem;
+    padding:6px 14px;border-radius:999px;margin-bottom:22px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+  h1{font-size:clamp(2.4rem,5.4vw,3.6rem);line-height:1.08;letter-spacing:-.03em;font-weight:850;}
+  h1 .accent{color:var(--green);}
+  .hero p.lede{font-size:1.18rem;color:var(--ink-soft);margin:22px 0 30px;max-width:34em;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;
+    padding:13px 26px;font-size:1rem;
+  }
+  .btn-primary{background:var(--green);color:#fff;}
+  .btn-primary:hover{background:var(--green-deep);}
+  .btn-ghost{border:2px solid var(--line);color:var(--ink);background:var(--card);}
+  .btn-ghost:hover{border-color:var(--green);}
+  .hero-note{margin-top:18px;font-size:.88rem;color:var(--ink-soft);}
+  /* phone mockup */
+  .phone{
+    width:300px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:34px;box-shadow:0 24px 60px rgba(16,35,28,.16);
+    padding:18px 16px 22px;
+  }
+  .phone .statusbar{display:flex;justify-content:space-between;font-size:.7rem;color:#9ab0a4;padding:0 6px 10px;}
+  .phone .screen-title{font-weight:800;font-size:.95rem;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+  .demo-chip{font-size:.62rem;font-weight:800;color:var(--amber);background:var(--amber-tint);padding:3px 8px;border-radius:999px;letter-spacing:.04em;}
+  .student-row{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;}
+  .student-name{font-weight:700;font-size:.9rem;}
+  .student-sub{font-size:.72rem;color:#7d958a;}
+  .value-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .chip{font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink-soft);background:#fff;}
+  .chip.on{background:var(--green);border-color:var(--green);color:#fff;}
+  .big-btn{
+    display:block;width:100%;text-align:center;background:var(--green);color:#fff;
+    font-weight:800;font-size:1.02rem;border-radius:14px;padding:16px 0;border:none;
+  }
+  .small-link{display:block;text-align:center;margin-top:12px;font-size:.8rem;color:#7d958a;}
+  .ratio-bar{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;}
+  .ratio-label{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+  .ratio-track{height:8px;border-radius:99px;background:#e3ece6;overflow:hidden;}
+  .ratio-fill{height:100%;width:78%;border-radius:99px;background:linear-gradient(90deg,var(--green),#4caf6e);}
+  /* ---------- quote strip ---------- */
+  .quote-strip{background:var(--navy);color:#eaf3ee;padding:56px 0;}
+  .quote-strip blockquote{font-size:clamp(1.15rem,2.5vw,1.5rem);font-weight:600;line-height:1.5;max-width:48em;letter-spacing:-.01em;}
+  .quote-strip .attr{margin-top:16px;font-size:.95rem;color:#9fc1ad;font-weight:600;}
+  /* ---------- sections ---------- */
+  section{padding:80px 0;}
+  .kicker{color:var(--green-deep);font-weight:800;text-transform:uppercase;letter-spacing:.09em;font-size:.8rem;margin-bottom:12px;}
+  h2{font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;line-height:1.15;font-weight:800;margin-bottom:14px;}
+  .section-lede{color:var(--ink-soft);font-size:1.08rem;max-width:42em;margin-bottom:44px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px 24px;
+  }
+  .card .icon{font-size:1.6rem;margin-bottom:14px;display:block;}
+  .card h3{font-size:1.08rem;margin-bottom:8px;letter-spacing:-.01em;}
+  .card p{font-size:.95rem;color:var(--ink-soft);}
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;position:relative;}
+  .step::before{
+    counter-increment:step;content:counter(step);
+    display:inline-flex;width:30px;height:30px;border-radius:50%;
+    background:var(--green-tint);color:var(--green-deep);font-weight:800;
+    align-items:center;justify-content:center;margin-bottom:14px;font-size:.95rem;
+  }
+  .step h3{font-size:1.02rem;margin-bottom:8px;}
+  .step p{font-size:.92rem;color:var(--ink-soft);}
+  /* roles */
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  /* trust */
+  .trust{background:var(--navy);color:#e8f1ec;}
+  .trust .kicker{color:#7fc99a;}
+  .trust h2{color:#fff;}
+  .trust .section-lede{color:#b9cfc2;}
+  .trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+  .trust-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:24px 22px;}
+  .trust-item h3{font-size:1rem;margin-bottom:8px;color:#fff;}
+  .trust-item p{font-size:.92rem;color:#b9cfc2;}
+  .hardline{
+    margin-top:36px;border-left:4px solid var(--green);background:rgba(255,255,255,.06);
+    padding:20px 24px;border-radius:0 var(--radius) var(--radius) 0;font-size:1rem;color:#dcebe2;max-width:54em;
+  }
+  /* research */
+  .research p{max-width:46em;color:var(--ink-soft);margin-bottom:16px;}
+  .research .cite{font-size:.88rem;color:#6f8579;}
+  /* company */
+  .company-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:start;}
+  @media(max-width:820px){.company-grid{grid-template-columns:1fr;}}
+  .company p{color:var(--ink-soft);margin-bottom:16px;max-width:38em;}
+  .fact-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;}
+  .fact-card dt{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#7d958a;margin-top:16px;}
+  .fact-card dt:first-child{margin-top:0;}
+  .fact-card dd{font-size:1rem;font-weight:600;}
+  /* contact */
+  .contact{text-align:center;padding:90px 0;}
+  .contact h2{margin-bottom:10px;}
+  .contact p{color:var(--ink-soft);max-width:36em;margin:0 auto 30px;}
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:36px 0 48px;font-size:.88rem;color:#7d958a;}
+  .foot-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="GoodCatch home">
+      <span class="logo-mark" aria-hidden="true">✓</span>GoodCatch
+    </a>
+    <ul class="nav-links">
+      <li><a href="#why">Why GoodCatch</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#trust">Privacy &amp; trust</a></li>
+      <li><a href="#company">Company</a></li>
+      <li class="keep"><a class="nav-cta" href="#contact">Request a pilot</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge"><span class="dot" aria-hidden="true"></span>Pre-launch · Piloting in Birmingham, Alabama for 2026–27</span>
+        <h1>Catch them <span class="accent">being good.</span></h1>
+        <p class="lede">
+          GoodCatch is the school behavior platform that makes recognition the path of least
+          resistance. Teachers log a positive moment in three taps — silently, mid-class — and the
+          app turns restorative documentation into the district paperwork, reports, and
+          certificates educators currently do by hand.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Request a pilot</a>
+          <a class="btn btn-ghost" href="#trust">Privacy &amp; trust overview</a>
+        </div>
+        <p class="hero-note">Built by a classroom educator. FERPA-first architecture. No student data is ever used to train AI models.</p>
+      </div>
+      <div aria-hidden="true">
+        <div class="phone">
+          <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+          <div class="screen-title">Quick Log <span class="demo-chip">DEMO — NO REAL STUDENTS</span></div>
+          <div class="student-row">
+            <span class="avatar">JM</span>
+            <span><span class="student-name">J. Morgan</span><br><span class="student-sub">Grade 7 · Room 214</span></span>
+          </div>
+          <div class="value-chips">
+            <span class="chip on">Respectful</span>
+            <span class="chip">Together</span>
+            <span class="chip">Invested</span>
+            <span class="chip">Brave</span>
+            <span class="chip">Excellent</span>
+          </div>
+          <button class="big-btn">🌟 Save recognition</button>
+          <span class="small-link">Need to re-teach instead?</span>
+          <div class="ratio-bar">
+            <div class="ratio-label"><span>Your recognition ratio this week</span><span>4.2 : 1</span></div>
+            <div class="ratio-track"><div class="ratio-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOUNDING OBSERVATION -->
+  <div class="quote-strip">
+    <div class="wrap">
+      <blockquote>
+        At a demo of an early prototype, teachers joked and reached for the <em>negative</em> button —
+        nobody asked how to record the <em>positive</em>. That instinct is why GoodCatch exists. If the
+        software makes documentation easy and recognition an afterthought, it becomes a surveillance
+        tool. We built the opposite.
+      </blockquote>
+      <p class="attr">— The founding observation, from a Birmingham classroom</p>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="wrap">
+      <p class="kicker">Why GoodCatch</p>
+      <h2>Four things no other behavior platform does</h2>
+      <p class="section-lede">
+        Schoolwide PBIS (Positive Behavioral Interventions and Supports) lives or dies on whether
+        data gets captured and whether positives outnumber correctives. GoodCatch is designed around
+        both — at the moment of entry, not in an admin report after the fact.
+      </p>
+      <div class="cards">
+        <div class="card">
+          <span class="icon" aria-hidden="true">⚡</span>
+          <h3>Three taps or your voice</h3>
+          <p>Tap student → tap value → save. Silent, one-handed, mid-class — about eight seconds. Voice dictation for hallway moments and planning periods. If logging isn't nearly instant, it doesn't happen.</p>
+        </div>
+        <div class="card">
+          <span class="icon" aria-hidden="true">🌟</span>
+          <h3>Positive-first by design</h3>
+          <p>Recognition is the big default button; a corrective takes a deliberate extra step. Every teacher privately sees their own recognition-to-correction ratio against a research-aligned target. Documentation is never blocked — but recognition always leads.</p>
+        </div>
+        <div class="card">
+          <span class="icon" aria-hidden="true">📄</span>
+          <h3>One-tap AI outputs</h3>
+          <p>Student of the Week certificates, monthly PBIS team reports with equity views, positive notes home, and a Friday summary for every teacher — generated from actually-logged moments, ready to print or send.</p>
+        </div>
+        <div class="card">
+          <span class="icon" aria-hidden="true">🤝</span>
+          <h3>Coaching, not surveillance</h3>
+          <p>When correction is needed, a restorative flow asks what the behavior is reaching for and surfaces two or three matched strategies from a cited, human-vetted library. Coaching ideas — never a diagnosis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" style="background:var(--green-tint);">
+    <div class="wrap">
+      <p class="kicker">How it works</p>
+      <h2>From a hallway moment to the data binder</h2>
+      <p class="section-lede">
+        GoodCatch sits on top of the work schools already do — it doesn't add a system, it removes
+        the paperwork between teachers and the framework they've already adopted.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <h3>Capture in seconds</h3>
+          <p>Three-tap silent logging or voice dictation. The app auto-tags the school's own expectation values and the setting. Rosters import from a photo, a spreadsheet, or a pasted list.</p>
+        </div>
+        <div class="step">
+          <h3>Restorative response</h3>
+          <p>Correctives run through a read-the-need flow with strategy cards drawn from trauma-informed care, restorative practices, culturally responsive teaching, and more — each cited, each vetted by humans.</p>
+        </div>
+        <div class="step">
+          <h3>Paperwork writes itself</h3>
+          <p>The district's mandatory referral forms, behavior plans, and parent-contact logs are auto-generated from what the teacher already documented. The teacher never fills district paperwork by hand.</p>
+        </div>
+        <div class="step">
+          <h3>The team sees the pattern</h3>
+          <p>Tier-support flags use the district's own criteria. Monthly PBIS reports land in the team's actual meeting rhythm — top infractions, hotspots by time and place, students trending toward support, equity mirror for the adults.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLES -->
+  <section id="roles">
+    <div class="wrap">
+      <p class="kicker">Built for the whole building</p>
+      <h2>Tiered access, audited views</h2>
+      <p class="section-lede">
+        Access follows FERPA's legitimate-educational-interest standard: people see what their role
+        requires, and every view is audit-logged.
+      </p>
+      <div class="roles cards">
+        <div class="card">
+          <span class="icon" aria-hidden="true">🧑‍🏫</span>
+          <h3>Teachers</h3>
+          <p>Full detail for their own students; recognition visibility for the rest of the building. A private weekly summary: who you recognized, who needs support, who to connect with next week.</p>
+        </div>
+        <div class="card">
+          <span class="icon" aria-hidden="true">🧭</span>
+          <h3>PBIS teams &amp; counselors</h3>
+          <p>The full picture: tier flags with the documented trail behind them, intervention tracking, meeting-ready reports, and an exportable data binder packet every month.</p>
+        </div>
+        <div class="card">
+          <span class="icon" aria-hidden="true">🏫</span>
+          <h3>Administrators</h3>
+          <p>Schoolwide analytics by time, place, and behavior; escalation gates that enforce the documented prerequisites before any referral moves up; cumulative-day tracking with loud flags where the law requires them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust" class="trust">
+    <div class="wrap">
+      <p class="kicker">Privacy &amp; trust</p>
+      <h2>Student data is the most protected data in education. We built like it.</h2>
+      <p class="section-lede">
+        GoodCatch handles behavioral records that can become special-education evidence. That
+        responsibility is the architecture, not a feature.
+      </p>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <h3>FERPA-first</h3>
+          <p>Role-based access under the school-official exception, a signed Data Privacy Agreement per district (National DPA v2.2 supported), encryption at rest and in transit, and an audit log on every view.</p>
+        </div>
+        <div class="trust-item">
+          <h3>No AI training on student data</h3>
+          <p>AI providers operate under enterprise agreements designating them a school official — zero or short retention, and student data is never used to train models. Period.</p>
+        </div>
+        <div class="trust-item">
+          <h3>COPPA-compliant posture</h3>
+          <p>Written data-security program, retention limits, and data minimization, aligned to the amended COPPA rule in force since April 2026.</p>
+        </div>
+        <div class="trust-item">
+          <h3>The app informs. Humans decide.</h3>
+          <p>Exportable, timestamped, setting-tagged records can inform IEP, FBA, and 504 processes — but a human writes those documents. GoodCatch never auto-generates legal special-education content and never interprets a child.</p>
+        </div>
+        <div class="trust-item">
+          <h3>Accessible by design</h3>
+          <p>WCAG 2.1 AA target: high contrast, large tap targets, screen-reader labels. Voice input is an accessibility asset — and never the only path.</p>
+        </div>
+        <div class="trust-item">
+          <h3>Demo mode until approval</h3>
+          <p>No real student data enters the system before the district's data-privacy agreement is signed. Demos and training run on clearly-labeled fictional rosters.</p>
+        </div>
+      </div>
+      <p class="hardline">
+        <strong>The hard line:</strong> GoodCatch exists to close discipline gaps, not widen them.
+        Equity disaggregation is a quiet mirror for the adults in the building — never a scoreboard
+        on children.
+      </p>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="research">
+    <div class="wrap">
+      <p class="kicker">The research</p>
+      <h2>Research-aligned, honestly framed</h2>
+      <p>
+        Decades of classroom research associate higher praise-to-reprimand ratios with stronger
+        engagement and less disruption. Training teachers toward a 5:1 ratio has increased academic
+        engagement and reduced disruptive behavior (Cook et al., 2017), and a 151-classroom study
+        found a positive linear relationship between praise ratios and on-task behavior — every
+        improvement helps, with no magic threshold (Caldarella et al., 2020).
+      </p>
+      <p>
+        That's why GoodCatch <em>nudges</em> toward a ratio target rather than claiming a validated
+        cutoff (Sabey, Charlton &amp; Charlton, 2019). Many districts already mandate positive-interaction
+        ratios in written policy. GoodCatch is the first platform that operationalizes one at the
+        point of entry — where the interaction actually happens.
+      </p>
+      <p class="cite">
+        Cook, C. R., et al. (2017). <em>Journal of Positive Behavior Interventions</em> ·
+        Caldarella, P., et al. (2020). <em>Educational Psychology</em> ·
+        Sabey, C. V., Charlton, C., &amp; Charlton, S. R. (2019).
+      </p>
+    </div>
+  </section>
+
+  <!-- COMPANY -->
+  <section id="company" style="background:var(--green-tint);">
+    <div class="wrap company-grid company">
+      <div>
+        <p class="kicker">Company</p>
+        <h2>Built in the classroom, not for it</h2>
+        <p>
+          GoodCatch is a product of <strong>4 Black Centuries LLC</strong>, an education-technology
+          company founded by Eli M. Davis — a special-education teacher and doctoral researcher who
+          built the first prototype for his own middle school in Birmingham, Alabama, because the
+          behavior framework his school believed in was drowning in paper.
+        </p>
+        <p>
+          The company's premise is simple: the tools schools use shape how adults see children.
+          Software that makes punishment easy and recognition hard teaches a building to watch for
+          the worst. GoodCatch is engineered — mechanically, at the level of which button is
+          biggest — to help adults catch students being good.
+        </p>
+      </div>
+      <dl class="fact-card">
+        <dt>Company</dt><dd>4 Black Centuries LLC</dd>
+        <dt>Founded</dt><dd>2023 · Alabama</dd>
+        <dt>Headquarters</dt><dd>Leeds, Alabama</dd>
+        <dt>Focus</dt><dd>School behavior support software (PBIS)</dd>
+        <dt>Status</dt><dd>Pre-launch · 2026–27 pilot</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="kicker">Get in touch</p>
+      <h2>Bring GoodCatch to your building</h2>
+      <p>
+        We're piloting with a Birmingham, Alabama middle school for the 2026–27 school year and
+        speaking with schools and districts about what comes next. If recognition-first behavior
+        support sounds like your building, we'd love to talk.
+      </p>
+      <a class="btn btn-primary" href="mailto:hello@goodcatchapp.com">hello@goodcatchapp.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span>© 2026 4 Black Centuries LLC · Leeds, Alabama. All rights reserved.</span>
+    <span>GoodCatch™ — Catch them being good.</span>
+  </div>
+</footer>
+
+</body>
+</html>
