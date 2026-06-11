@@ -1,28 +1,21 @@
 # GoodCatch — company website (4 Black Centuries LLC)
 
 One self-contained file: `index.html`. No build step, no dependencies, no JavaScript required.
-Open it in a browser to view; upload it anywhere to publish.
 
-## Two placeholders to make real before publishing
+## Live infrastructure (as of June 10, 2026)
 
-1. **Domain** — the site references `goodcatchapp.com`, which is NOT registered yet.
-   Check availability (Namecheap/Cloudflare, ~$10–12/yr) for, in order of preference:
-   `goodcatchapp.com` · `getgoodcatch.com` · `goodcatch.app` · plus `4blackcenturies.com`
-   for the company itself. Whatever you register, it becomes the URL for the Mercury
-   "Company website" field and the D-U-N-S application.
-2. **Email** — the contact button points to `hello@goodcatchapp.com`. Set up that mailbox
-   (Cloudflare Email Routing forwards it to your Gmail for free) or search/replace it in
-   `index.html` with an address that exists.
-
-## Deploying (pick one, all free)
-
-- **Netlify Drop** (fastest, ~2 minutes): go to https://app.netlify.com/drop and drag this
-  folder onto the page. You get a live URL immediately; connect your custom domain in
-  Site settings → Domain management.
-- **Cloudflare Pages**: if you register the domain at Cloudflare anyway, create a Pages
-  project and upload this folder — domain wiring is one click.
-- **Firebase Hosting** (the stack you already know): `firebase init hosting` in this folder,
-  set public dir to `.`, then `firebase deploy`.
+- **Site:** https://goodcatchapp.com — hosted free on GitHub Pages from
+  https://github.com/EMD173/goodcatch-website (push to `main` = deploy, ~1 min).
+- **Domains:** `goodcatchapp.com` + `4blackcenturies.com`, both registered at Porkbun
+  (account: 4BCLLC), ~$11.08/yr each, auto-renew on, WHOIS privacy on.
+  `4blackcenturies.com` 302-redirects (wildcard) to the GoodCatch site via Porkbun URL forwarding.
+- **DNS** (`goodcatchapp.com`, managed at Porkbun): four A records → GitHub Pages
+  (185.199.108–111.153), `www` CNAME → `emd173.github.io`, MX `fwd1`/`fwd2.porkbun.com`
+  (free email forwarding) + SPF TXT.
+- **Email:** `hello@goodcatchapp.com` forwards to Eli's Gmail via Porkbun's free forwarding.
+  Up to 20 aliases free — add more in Porkbun → Email.
+- **To edit the site:** change `index.html`, then `git add -A && git commit && git push`.
+- **CNAME file** in this repo must stay — it tells GitHub Pages the custom domain.
 
 ## What was deliberately left OFF the site (keep it that way)
 
