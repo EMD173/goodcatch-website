@@ -864,6 +864,8 @@ function exportCSV(){
 }
 
 init();
+// Demo nicety: arrive to a living classroom, not an empty one
+if(!state.students || state.students.length===0){ try{ loadSample(); refreshAll(); }catch(e){} }
 </script>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg1cAv9cc_BMKyuGvlxY6NH9Yb0hwEO37w-waaz5voPgraMA/viewform" target="_blank" style="position:fixed;bottom:22px;right:22px;z-index:9999;background:#1b7a3d;color:#fff;font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:15px;padding:13px 20px;border-radius:999px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.25);">💬 Give feedback</a>
 </body>
