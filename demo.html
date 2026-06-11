@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoodCatch — Clickable Prototype (demo data only)</title>
+<style>
+  :root{
+    --blue:#0b2e6b; --blue2:#13449b; --sky:#d5e8f0; --ink:#13233d;
+    --good:#1b7a3d; --good-bg:#e6f4ea; --warn:#a8410d; --warn-bg:#fbeadf;
+    --line:#d8dee9; --muted:#5a6b85; --bg:#f4f7fb; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header .mark{font-size:26px}
+  header h1{font-size:18px;margin:0;letter-spacing:.3px}
+  header .tag{font-size:11px;opacity:.85;margin-top:2px}
+  header .who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+  select,input,textarea,button{font:inherit}
+  .demo-banner{background:#fff3cd;color:#7a5c00;text-align:center;font-size:12px;padding:6px;border-bottom:1px solid #ecd9a0}
+  nav{display:flex;gap:4px;background:var(--white);padding:6px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;flex-wrap:wrap}
+  nav button{border:0;background:transparent;padding:10px 16px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:600;font-size:14px}
+  nav button.active{background:var(--sky);color:var(--blue)}
+  main{max-width:1040px;margin:0 auto;padding:20px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 2px rgba(13,35,80,.04)}
+  h2{font-size:16px;margin:0 0 12px}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:18px 0 8px}
+  label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+  select,input[type=text],textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fbfcfe}
+  textarea{min-height:90px;resize:vertical}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:150px}
+  .btn{border:0;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer}
+  .btn.primary{background:var(--blue);color:#fff}
+  .btn.ghost{background:var(--sky);color:var(--blue)}
+  .btn.good{background:var(--good);color:#fff}
+  .btn.warn{background:var(--warn);color:#fff}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .mic{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:22px;border-radius:14px;border:2px dashed var(--blue2);background:#eef4ff;color:var(--blue);font-size:18px;font-weight:700;cursor:pointer}
+  .mic.live{background:#fde8e8;border-color:#c0392b;color:#c0392b;animation:pulse 1.2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted)}
+  .chip.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .chip.good.sel{background:var(--good);border-color:var(--good)}
+  .chip.warn.sel{background:var(--warn);border-color:var(--warn)}
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .pill.tribe{background:var(--sky);color:var(--blue)}
+  .pill.office{background:#ffe0e0;color:#a11}
+  .entry{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:10px;background:#fff}
+  .entry .meta{font-size:12px;color:var(--muted);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .stat{display:flex;gap:14px;flex-wrap:wrap}
+  .stat .box{flex:1;min-width:120px;background:#f7faff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+  .stat .box .n{font-size:26px;font-weight:800;color:var(--blue)}
+  .stat .box .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px}
+  tr.flag td{background:#fff6ee}
+  .bar{height:9px;border-radius:6px;background:var(--sky);overflow:hidden}
+  .bar>span{display:block;height:100%;background:var(--blue2)}
+  .muted{color:var(--muted);font-size:13px}
+  .ai-note{background:#eef9f0;border:1px solid #cde9d4;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:10px}
+  .ai-note b{color:var(--good)}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);opacity:0;transition:.3s;pointer-events:none}
+  .toast.show{opacity:1}
+  .clickable{cursor:pointer}
+  .clickable:hover{color:var(--blue);text-decoration:underline}
+  .hidden{display:none}
+  footer{max-width:1040px;margin:0 auto;padding:10px 20px 40px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div style="background:#0f2e45;color:#fff;padding:10px 16px;text-align:center;font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.5;">
+🧪 <b>PROTOTYPE</b> — early clickable demo of <a href="https://goodcatchapp.com" style="color:#8fd3a8;">GoodCatch</a>. Fictional students, demo data only, nothing leaves your browser.
+Your feedback is gold: <a href="mailto:hello@goodcatchapp.com?subject=GoodCatch%20prototype%20feedback" style="color:#8fd3a8;">hello@goodcatchapp.com</a></div>
+
+<header>
+  <div class="mark">🐾</div>
+  <div>
+    <h1>GoodCatch (prototype)</h1>
+    <div class="tag">GoodCatch Demo School · Catch them being good.</div>
+  </div>
+  <div class="who">
+    <span>Signed in:</span>
+    <select id="teacherSel" onchange="setTeacher()"></select>
+  </div>
+</header>
+<div class="demo-banner">⚠️ DEMO PROTOTYPE — sample students only, no real child data. Data is stored only in this browser. Not the production system.</div>
+
+<nav>
+  <button class="active" data-tab="log" onclick="tab('log')">⚡ Quick Log</button>
+  <button data-tab="doc" onclick="tab('doc')">📋 Documentation</button>
+  <button data-tab="support" onclick="tab('support')">💡 Supports</button>
+  <button data-tab="students" onclick="tab('students')">👧 Students</button>
+  <button data-tab="office" onclick="tab('office')">🏫 Office Dashboard</button>
+  <button data-tab="setup" onclick="tab('setup')">⚙️ Roster &amp; Setup</button>
+</nav>
+
+<main>
+<!-- ============ QUICK LOG ============ -->
+<section id="tab-log">
+  <div class="card">
+    <h2>Log a moment in 8 seconds</h2>
+    <p class="muted">Tap the mic and just talk: <i>“Marcus held the door for the whole class in the hallway, that was so Together.”</i> The assistant tags it to the TRIBE matrix — you confirm and save.</p>
+    <div id="micBtn" class="mic" onclick="toggleMic()">🎤 &nbsp;Tap to talk</div>
+    <div class="ai-note" id="aiNote" style="display:none"></div>
+
+    <label>What happened (you can edit the transcript)</label>
+    <textarea id="note" placeholder="Type or dictate what you saw..." oninput="autoTag()"></textarea>
+
+    <div class="row">
+      <div>
+        <label>Student</label>
+        <select id="studentSel"></select>
+      </div>
+      <div>
+        <label>Setting</label>
+        <select id="settingSel"></select>
+      </div>
+    </div>
+
+    <label>This was a…</label>
+    <div class="chiprow" id="kindChips">
+      <div class="chip good" data-kind="recognition" onclick="pickKind(this,'recognition')">🌟 Recognition (GoodCatch ⭐)</div>
+      <div class="chip warn" data-kind="reteach" onclick="pickKind(this,'reteach')">🔁 Re-teach moment</div>
+    </div>
+
+    <label>TRIBE value</label>
+    <div class="chiprow" id="tribeChips"></div>
+
+    <div id="managedWrap" style="display:none">
+      <label>Read the need — what is the behavior reaching for?</label>
+      <div class="chiprow" id="needChips"></div>
+      <div id="suggestPanel"></div>
+      <label>Behavior handling <span class="muted">(Section 10 guardrail)</span></label>
+      <div class="chiprow" id="managedChips">
+        <div class="chip" data-m="staff" onclick="pickManaged(this,'staff')">✅ Staff-managed (handle in setting)</div>
+        <div class="chip" data-m="office" onclick="pickManaged(this,'office')">🚨 Office-managed (safety only)</div>
+      </div>
+      <div id="r5Wrap" style="display:none">
+        <label>R5 response used</label>
+        <div class="chiprow" id="r5Chips"></div>
+      </div>
+      <div id="officeWarn" class="ai-note" style="display:none;background:#fff3cd;border-color:#ecd9a0">
+        <b style="color:#7a5c00">Heads up:</b> Your framework reserves office referrals for genuine safety. Most repeating behaviors are a signal for <b style="color:#7a5c00">Tier 2 support</b>, not a heavier consequence.
+      </div>
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn primary" onclick="saveEntry()">Save entry</button>
+      <button class="btn ghost" onclick="clearForm()">Clear</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Just logged</h2>
+    <div id="recentList"><p class="muted">Nothing yet today.</p></div>
+  </div>
+</section>
+
+<!-- ============ DOCUMENTATION FORM ============ -->
+<section id="tab-doc" class="hidden">
+  <div class="card">
+    <h2>Behavior Documentation Form</h2>
+    <p class="muted">The digital version of the paper step-form. Auto-fills the student, teacher, and date; dictate the Facts; sign on the screen. Every completed form lands on the student timeline and the office dashboard automatically — no lost paper.</p>
+
+    <label>Form style</label>
+    <div class="chiprow" id="styleChips">
+      <div class="chip sel" data-style="putnam" onclick="pickStyle(this,'putnam')">🐾 Restorative (R5)</div>
+      <div class="chip" data-style="district" onclick="pickStyle(this,'district')">📄 District form, as-is</div>
+    </div>
+    <div class="ai-note" id="styleNote"></div>
+
+    <div class="row">
+      <div>
+        <label>Student</label>
+        <select id="docStudent"></select>
+      </div>
+      <div>
+        <label>Teacher</label>
+        <input type="text" id="docTeacher" readonly>
+      </div>
+    </div>
+    <label>Offense class</label>
+    <div class="chiprow" id="classChips">
+      <div class="chip" data-c="minor" onclick="pickClass(this,'minor')">Staff-managed / minor — start at Step 1</div>
+      <div class="chip" data-c="major" onclick="pickClass(this,'major')">Class I &amp; II (safety) — skip to Step 4</div>
+    </div>
+
+    <div id="stepBlocks"></div>
+
+    <h3>Disposition</h3>
+    <div class="chiprow" id="dispChips">
+      <div class="chip" onclick="this.classList.toggle('sel')">Counselor Referral</div>
+      <div class="chip" onclick="this.classList.toggle('sel')">Tier 2 Support</div>
+      <div class="chip" onclick="this.classList.toggle('sel')">Suspension</div>
+      <div class="chip" onclick="this.classList.toggle('sel')">Detention</div>
+      <div class="chip" onclick="this.classList.toggle('sel')">Other</div>
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn primary" onclick="saveDoc()">Save documentation form</button>
+      <button class="btn ghost" onclick="renderDocForm()">Reset</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUPPORTS / STRATEGY LIBRARY ============ -->
+<section id="tab-support" class="hidden">
+  <div class="card">
+    <h2>Support &amp; Intervention Library</h2>
+    <p class="muted">Research-grounded moves the app suggests when you read a child’s need. Browse by framework or by what the behavior is reaching for. These are coaching scaffolds for educators — not diagnoses. Safety or clinical concerns go to the counselor / Tier 2 team.</p>
+    <label>Framework / lens</label>
+    <div class="chiprow" id="libLens"></div>
+    <label>What the behavior is reaching for</label>
+    <div class="chiprow" id="libNeed"></div>
+    <div id="libList" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- ============ STUDENTS ============ -->
+<section id="tab-students" class="hidden">
+  <div class="card">
+    <h2>Students</h2>
+    <input type="text" id="studentSearch" placeholder="Search a student…" oninput="renderStudents()">
+    <div id="studentList" style="margin-top:12px"></div>
+  </div>
+  <div id="studentDetail"></div>
+</section>
+
+<!-- ============ OFFICE ============ -->
+<section id="tab-office" class="hidden">
+  <div class="card">
+    <h2>Office Dashboard</h2>
+    <p class="muted">What your PBIS team reviews monthly (Section 11). Recognition-first, with equity in view.</p>
+    <div class="stat" id="officeStats"></div>
+    <button class="btn ghost" style="margin-top:14px" onclick="exportCSV()">⬇ Export all entries (CSV)</button>
+  </div>
+  <div class="card">
+    <h2>🚩 Tier 2 watch — repeating staff-managed behavior</h2>
+    <p class="muted">Auto-flagged when a student has 3+ re-teach entries. The question shifts from “what’s wrong with this child” to “what does this child need.”</p>
+    <div id="tier2List"></div>
+  </div>
+  <div class="row">
+    <div class="card" style="flex:1;min-width:300px">
+      <h2>By TRIBE value</h2>
+      <div id="byTribe"></div>
+    </div>
+    <div class="card" style="flex:1;min-width:300px">
+      <h2>By setting</h2>
+      <div id="bySetting"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Recognition vs. re-teach, by grade</h2>
+    <p class="muted">A quiet equity mirror. Healthy schools run heavily positive.</p>
+    <div id="byGrade"></div>
+  </div>
+</section>
+
+<!-- ============ SETUP ============ -->
+<section id="tab-setup" class="hidden">
+  <div class="card">
+    <h2>Roster &amp; Setup</h2>
+    <p class="muted">In production this syncs from the district SIS (PowerSchool) over a secure, FERPA-compliant connection. For the demo you can load sample data or paste a roster.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0">
+      <button class="btn ghost" onclick="loadSample()">Load sample roster &amp; entries</button>
+      <button class="btn warn" onclick="wipe()">Erase all demo data</button>
+    </div>
+    <h3>Paste a roster (one per line: Name, Grade)</h3>
+    <textarea id="rosterPaste" placeholder="Marcus Bell, 6&#10;Aaliyah Carter, 7&#10;Diego Romero, 8"></textarea>
+    <button class="btn primary" style="margin-top:10px" onclick="importRoster()">Import students</button>
+    <h3>Teachers</h3>
+    <textarea id="teacherPaste" placeholder="Ms. Johnson&#10;Mr. Davis&#10;Coach Pratt"></textarea>
+    <button class="btn primary" style="margin-top:10px" onclick="importTeachers()">Update teachers</button>
+  </div>
+  <div class="card">
+    <h2>What a real build needs (notes for the district)</h2>
+    <ul class="muted" style="line-height:1.7">
+      <li><b>Data store:</b> a FERPA-compliant, access-controlled database — <u>not</u> GitHub. GitHub holds the app code; the district controls the student data.</li>
+      <li><b>Roles:</b> teacher (log + see their students), team (dashboards), admin (everything), parent (their child only, optional).</li>
+      <li><b>SIS sync:</b> names &amp; schedules from PowerSchool, refreshed nightly.</li>
+      <li><b>Real voice + AI:</b> on-device speech-to-text, then an LLM (e.g. Claude) to draft the structured entry and a parent-friendly good-news summary. This prototype uses your browser’s built-in speech and a simple keyword tagger to show the flow.</li>
+      <li><b>Audit log:</b> who viewed/edited each record.</li>
+    </ul>
+  </div>
+</section>
+</main>
+<footer>GoodCatch · clickable prototype for demonstration · demo data only — no real students, nothing is saved to a server.</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- model ---------- */
+const TRIBE = [
+  {k:'Together',  d:'include, collaborate, look out for each other'},
+  {k:'Respectful',d:'honor ourselves, each other, adults, our space'},
+  {k:'Invested',  d:'own our learning, engage, keep trying'},
+  {k:'Brave',     d:'lead, tell the truth, ask for help out loud'},
+  {k:'Excellent', d:'best effort, pride in work and school'}
+];
+const SETTINGS = ['Classroom','Hallway','Cafeteria','Restrooms','Gym','Front Office','Library','Counselor’s Office','Other'];
+const R5 = ['Read','Regulate','Re-teach','Repair','Return'];
+
+const DB = {
+  load(){ try{return JSON.parse(localStorage.getItem('panther')||'{}')}catch(e){return{}} },
+  save(o){ localStorage.setItem('panther',JSON.stringify(o)) }
+};
+let state = DB.load();
+if(!state.students){ state = {students:[], teachers:['Ms. Johnson','Mr. Davis','Coach Pratt','Ms. Lewis'], entries:[], docs:[], teacher:'Ms. Johnson'}; DB.save(state); }
+if(!state.docs) state.docs = [];
+
+/* ---------- form state ---------- */
+let form = {kind:null, tribe:null, managed:null, r5:[], need:null};
+let rec=null, listening=false;
+
+/* ---------- init ---------- */
+function init(){
+  fillSelect('teacherSel', state.teachers, state.teacher);
+  fillSelect('settingSel', SETTINGS);
+  renderStudentSelect();
+  renderTribeChips();
+  renderR5Chips();
+  renderNeedChips();
+  renderRecent();
+}
+function fillSelect(id, arr, sel){
+  const e=document.getElementById(id);
+  e.innerHTML = arr.map(v=>`<option ${v===sel?'selected':''}>${esc(v)}</option>`).join('');
+}
+function renderStudentSelect(){
+  const e=document.getElementById('studentSel');
+  if(!state.students.length){ e.innerHTML='<option value="">— load a roster in Setup —</option>'; return; }
+  e.innerHTML = state.students.map(s=>`<option value="${s.id}">${esc(s.name)} (Gr ${s.grade})</option>`).join('');
+}
+function renderTribeChips(){
+  document.getElementById('tribeChips').innerHTML = TRIBE.map(t=>
+    `<div class="chip" data-t="${t.k}" onclick="pickTribe(this,'${t.k}')" title="${t.d}">${t.k}</div>`).join('');
+}
+function renderR5Chips(){
+  document.getElementById('r5Chips').innerHTML = R5.map(r=>
+    `<div class="chip" data-r="${r}" onclick="pickR5(this,'${r}')">${r}</div>`).join('');
+}
+
+/* ---------- documentation form ---------- */
+let docStyle='putnam';
+const STEP_LABELS = {
+  putnam:[
+    {t:'Step 1 · Read & Re-teach', d:'Name the need, restate the expectation, coach in the moment.'},
+    {t:'Step 2 · Regulate & Repair', d:'Help the body settle, brief restorative word. (No loss of recess or movement.)'},
+    {t:'Step 3 · Phone conference with parent', d:'Loop the family in as a partner — lead with the relationship.'},
+    {t:'Step 4 · Tier 2 / Administrative referral', d:'Reserved for genuine safety, or chronic behavior after documented support.'}
+  ],
+  district:[
+    {t:'Step 1 · Student Conference / Verbal Warning', d:''},
+    {t:'Step 2 · No Recess / Silent Lunch', d:''},
+    {t:'Step 3 · Phone conference with parent', d:''},
+    {t:'Step 4 · Administrative Referral', d:''}
+  ]
+};
+let docClass='minor';
+
+function pickStyle(el,s){
+  docStyle=s;
+  document.querySelectorAll('#styleChips .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const n=document.getElementById('styleNote');
+  n.innerHTML = s==='putnam'
+    ? '<b>Restorative:</b> same documentation trail, but Step 2 keeps the child regulated instead of removing recess — keeping the child regulated and in community.'
+    : '<b style="color:var(--warn)">District form, as-is:</b> faithful to the paper sheet (incl. “No Recess / Silent Lunch”). Use this if your district requires its exact form.';
+  renderDocForm();
+}
+function pickClass(el,c){
+  docClass=c;
+  document.querySelectorAll('#classChips .chip').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  renderDocForm();
+}
+function renderDocForm(){
+  fillSelect('docStudent', state.students.map(s=>s.name), null);
+  document.getElementById('docStudent').innerHTML = state.students.length
+    ? state.students.map(s=>`<option value="${s.id}">${esc(s.name)} (Gr ${s.grade})</option>`).join('')
+    : '<option value="">— load a roster in Setup —</option>';
+  document.getElementById('docTeacher').value = state.teacher;
+  if(!document.querySelector('#styleNote').innerHTML) pickStyle(document.querySelector('[data-style="putnam"]'),'putnam');
+  const today = new Date().toISOString().slice(0,10);
+  const labels = STEP_LABELS[docStyle];
+  const steps = [1,2,3,4].map(i=>{
+    const L=labels[i-1];
+    const skipped = docClass==='major' && i<4;
+    return `<div class="card" style="background:${skipped?'#f6f7f9':'#fbfdff'};${skipped?'opacity:.55':''}">
+      <label style="display:flex;align-items:center;gap:8px;margin:0">
+        <input type="checkbox" class="stepOn" data-i="${i}" style="width:auto" ${skipped?'disabled':''} onchange="this.closest('.card').style.opacity=this.checked?1:.6">
+        <b>${L.t}</b>${skipped?' <span class="muted">(skipped — Class I/II)</span>':''}
+      </label>
+      ${L.d?`<div class="muted" style="margin:4px 0 0 26px">${L.d}</div>`:''}
+      <div class="row" style="margin-top:8px">
+        <div style="flex:0 0 auto"><label>Location</label>
+          <label style="font-weight:400"><input type="radio" name="loc${i}" value="In Class" style="width:auto"> In Class</label>
+          <label style="font-weight:400"><input type="radio" name="loc${i}" value="Out of Class" style="width:auto"> Out of Class</label>
+        </div>
+        <div><label>Date</label><input type="text" class="stepDate" data-i="${i}" value="${today}"></div>
+      </div>
+      <label>Facts <span class="muted">— dictate or type</span></label>
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <textarea class="stepFacts" data-i="${i}" style="min-height:60px"></textarea>
+        <button class="btn ghost" style="padding:10px 12px" onclick="dictateFacts(${i},this)">🎤</button>
+      </div>
+      <div class="row">
+        <div><label>Teacher signature</label><input type="text" class="stepTsig" data-i="${i}" value="${esc(state.teacher)}"></div>
+        <div><label>Student signature</label><input type="text" class="stepSsig" data-i="${i}" placeholder="student initials"></div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('stepBlocks').innerHTML = steps;
+  document.querySelectorAll('#dispChips .chip').forEach(c=>c.classList.remove('sel'));
+}
+function dictateFacts(i,btn){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ toast('Speech not supported — try Chrome/Edge.'); return; }
+  if(btn._rec){ btn._rec.stop(); return; }
+  const ta=document.querySelector(`.stepFacts[data-i="${i}"]`); let base=ta.value;
+  const r=new SR(); r.continuous=true; r.interimResults=true; r.lang='en-US'; btn._rec=r;
+  btn.textContent='🔴'; btn.classList.add('warn');
+  r.onend=()=>{btn.textContent='🎤'; btn.classList.remove('warn'); btn._rec=null;};
+  r.onresult=ev=>{let t='';for(let k=0;k<ev.results.length;k++)t+=ev.results[k][0].transcript; ta.value=(base?base+' ':'')+t;};
+  r.start();
+}
+function saveDoc(){
+  const sid=document.getElementById('docStudent').value;
+  if(!sid){ toast('Pick a student (load a roster in Setup).'); return; }
+  const steps=[];
+  document.querySelectorAll('.stepOn').forEach(cb=>{
+    const i=cb.dataset.i;
+    if(!cb.checked) return;
+    const loc=(document.querySelector(`input[name="loc${i}"]:checked`)||{}).value||'';
+    steps.push({
+      n:+i, label:STEP_LABELS[docStyle][i-1].t,
+      loc, date:document.querySelector(`.stepDate[data-i="${i}"]`).value,
+      facts:document.querySelector(`.stepFacts[data-i="${i}"]`).value.trim(),
+      tsig:document.querySelector(`.stepTsig[data-i="${i}"]`).value.trim(),
+      ssig:document.querySelector(`.stepSsig[data-i="${i}"]`).value.trim()
+    });
+  });
+  if(!steps.length){ toast('Check at least one step and add the facts.'); return; }
+  const disp=[...document.querySelectorAll('#dispChips .chip.sel')].map(c=>c.textContent);
+  const referral = steps.some(s=>s.n===4) || disp.includes('Suspension') || disp.includes('Detention');
+  const doc={id:'d'+Date.now(), sid, teacher:state.teacher, style:docStyle, offenseClass:docClass, steps, disposition:disp, referral, ts:Date.now()};
+  state.docs.unshift(doc); DB.save(state);
+  toast('📋 Documentation form saved to '+studentName(sid)+'’s record.');
+  renderDocForm();
+}
+function docHTML(d){
+  const stepLines = d.steps.map(s=>`<div style="margin:4px 0"><b>${esc(s.label)}</b> <span class="muted">${esc(s.loc)} · ${esc(s.date)}</span><br><span>${esc(s.facts||'—')}</span> <span class="muted">✍ ${esc(s.tsig||'')}</span></div>`).join('');
+  const disp = d.disposition.length?`<div class="meta">Disposition: ${d.disposition.map(x=>`<span class="pill warn">${esc(x)}</span>`).join(' ')}</div>`:'';
+  return `<div class="entry" style="border-left:4px solid var(--warn)">
+    <div><b>📋 Documentation form</b> <span class="pill ${d.style==='putnam'?'tribe':'warn'}">${d.style==='putnam'?'R5':'District form'}</span> ${d.referral?'<span class="pill office">Referral</span>':''}</div>
+    ${stepLines}${disp}
+    <div class="meta">${esc(d.teacher)} · ${timeAgo(d.ts)} · ${d.steps.length} step(s) documented</div>
+  </div>`;
+}
+
+/* ---------- strategy / intervention knowledge layer ---------- */
+const NEEDS = [
+  {k:'Connection', d:'attention, relationship'},
+  {k:'Escape',     d:'the task feels too hard'},
+  {k:'Movement',   d:'the body needs to move / sensory'},
+  {k:'Autonomy',   d:'a need for control or a say'},
+  {k:'Regulation', d:'big feelings, overwhelmed'},
+  {k:'Belonging',  d:'identity, feeling seen'},
+  {k:'Unmet need', d:'hunger, sleep, a hard morning'}
+];
+const STRATEGIES = [
+  {id:'twobyten', lens:'Trauma-Informed Care', title:'2×10 relationship build', needs:['Connection','Belonging'],
+    move:'Spend 2 uninterrupted minutes a day, 10 days running, talking with the student about anything but school.',
+    why:'Predictable, no-strings connection lowers a child’s threat response and rebuilds trust.'},
+  {id:'predictability', lens:'Trauma-Informed Care', title:'Make the next step predictable', needs:['Regulation','Autonomy'],
+    move:'Pre-teach what’s coming and give transition warnings; keep a visible schedule.',
+    why:'Predictability lowers the hypervigilance that trauma leaves behind.'},
+  {id:'coregulate', lens:'Co-Regulation / Polyvagal', title:'Regulate before you reason', needs:['Regulation'],
+    move:'Lower your voice, slow down, offer space or water; don’t problem-solve until the body is calm.',
+    why:'A dysregulated brain can’t reach its reasoning — your calm is the intervention.'},
+  {id:'adultification', lens:'Historical Contextuality', title:'Check the adultification lens', needs:['Belonging'],
+    move:'Ask: would I read this behavior the same way in another child? Black children — girls especially — are too often seen as older and less innocent.',
+    why:'That bias inflates perceived threat and drives the discipline gap.',
+    dignity:'Aimed at the adult’s perception, never the child.'},
+  {id:'communityknowledge', lens:'Historical Contextuality', title:'Treat the family as the expert', needs:['Belonging','Unmet need'],
+    move:'Ask what works at home and what this child is carrying; partner instead of summon.',
+    why:'Honors community knowledge and the historical mistrust schools have earned.'},
+  {id:'biology', lens:'Behavioral Epigenetics', title:'Behavior is biology, not defiance', needs:['Regulation','Unmet need'],
+    move:'Settle the stress response first, then teach; don’t punish a survival reaction.',
+    why:'Chronic stress shapes the developing stress-response system; much dysregulation is involuntary.',
+    dignity:'Context, not excuse. Understanding, not labeling.'},
+  {id:'educatorself', lens:'Self-Awareness (educator)', title:'Name your own state first', needs:['Regulation'],
+    move:'Notice your own activation — tight chest, rising voice — and take one breath before you respond.',
+    why:'You can’t co-regulate a child from your own dysregulation; you set the room’s thermostat.'},
+  {id:'equitymirror', lens:'Self-Awareness (educator)', title:'Hold up the equity mirror', needs:['Belonging'],
+    move:'Review who you correct and who you praise; look for unconscious patterns by group.',
+    why:'Fairness doesn’t happen on its own inside a framework — Section 11 of our plan.'},
+  {id:'nameit', lens:'Self-Awareness (student SEL)', title:'Name it to tame it', needs:['Regulation'],
+    move:'Help the student label the feeling or “zone” they’re in before solving anything.',
+    why:'Naming an emotion measurably lowers its intensity and grows self-regulation.'},
+  {id:'culturalassets', lens:'Culturally Responsive Teaching', title:'Teach to their assets', needs:['Escape','Belonging'],
+    move:'Anchor the task in students’ lives, language, and interests; use collaboration, call-and-response, movement.',
+    why:'Relevance and identity-safety raise engagement and shrink escape behaviors.'},
+  {id:'warmdemander', lens:'Culturally Responsive Teaching', title:'Be a warm demander', needs:['Escape','Belonging','Connection'],
+    move:'Pair high warmth with high expectations: “I’m asking because I know you can.”',
+    why:'Students invest for adults who clearly believe in them and still hold the bar.'},
+  {id:'abc', lens:'Applied Behavior Analysis', title:'Find the ABC', needs:['any'],
+    move:'Note the Antecedent (what happened just before), the Behavior, and the Consequence (the payoff after).',
+    why:'Behavior serves a function — change the trigger or teach a replacement instead of only reacting.',
+    dignity:'Use to understand and teach skills, not to force compliance — be especially respectful with neurodivergent students.'},
+  {id:'replacement', lens:'Applied Behavior Analysis', title:'Teach a replacement behavior', needs:['Connection','Escape','Movement'],
+    move:'If the behavior gets attention or escape, teach an acceptable way to get the same need met — a break card, a hand signal.',
+    why:'You can’t erase a need; you can give it a better route.'},
+  {id:'praise', lens:'Applied Behavior Analysis', title:'Catch it being done right (4:1)', needs:['Connection','any'],
+    move:'Give four specific positives for every correction; name the exact behavior you want repeated.',
+    why:'Reinforcement grows whatever you pay attention to.'},
+  {id:'antecedent', lens:'Applied Behavior Analysis', title:'Arrange the antecedent', needs:['Escape','Autonomy'],
+    move:'Prevent by design — seating, a quiet pre-correction, chunk the task, offer a choice — before the behavior starts.',
+    why:'Prevention is cheaper and kinder than reaction.'},
+  {id:'cps', lens:'Collaborative & Proactive Solutions', title:'Solve it WITH, not TO', needs:['Escape','Autonomy','Regulation'],
+    move:'Empathy first (“what’s hard about this?”), name the problem, then build a solution together.',
+    why:'Kids do well if they can — behavior is a lagging skill, not a lagging will.'},
+  {id:'restorative', lens:'Restorative Practices', title:'Repair the harm', needs:['Belonging','Connection'],
+    move:'Ask who was affected and what would make it right, instead of assigning a consequence.',
+    why:'Rebuilds the relationship and keeps the child in the room — the heart of R5.'},
+  {id:'fba', lens:'Functional Behavior Assessment', title:'When it repeats, request an FBA', needs:['any'],
+    move:'At Tier 2 / chronic behavior, ask for a Functional Behavior Assessment to find the function and build a plan.',
+    why:'Repetition is a signal for support, not a heavier consequence.'},
+  {id:'udl', lens:'Universal Design for Learning', title:'Lower the barrier, not the bar', needs:['Escape'],
+    move:'Offer more than one way to access the task and to show learning; cut the friction that triggers avoidance.',
+    why:'Many “won’t” behaviors are “can’t-yet” access problems.'},
+  {id:'choice', lens:'Autonomy / Choice', title:'Offer structured choice', needs:['Autonomy'],
+    move:'Give two acceptable options — this seat or that, marker or pencil, start here or there.',
+    why:'Restoring a little agency defuses power struggles.'},
+  {id:'movement', lens:'Movement / Sensory', title:'Build in movement — never remove it', needs:['Movement'],
+    move:'Add brain breaks, errands, flexible seating; never take recess or movement as a punishment.',
+    why:'Movement regulates the nervous system; removing it worsens dysregulation (and breaks our framework).'}
+];
+const LENSES = [...new Set(STRATEGIES.map(s=>s.lens))];
+
+function stratCard(s){
+  return `<div class="entry">
+    <div><span class="pill tribe">${esc(s.lens)}</span> <b>${esc(s.title)}</b></div>
+    <div style="margin-top:4px"><b>Try:</b> ${esc(s.move)}</div>
+    <div class="muted" style="margin-top:3px"><b>Why:</b> ${esc(s.why)}</div>
+    ${s.dignity?`<div class="ai-note" style="margin-top:6px"><b>Hold the dignity:</b> ${esc(s.dignity)}</div>`:''}
+  </div>`;
+}
+function matchStrategies(need, n){
+  const spec = STRATEGIES.filter(s=>s.needs.includes(need));
+  const any  = STRATEGIES.filter(s=>s.needs.includes('any') && !spec.includes(s));
+  return [...spec, ...any].slice(0, n||3);
+}
+function renderNeedChips(){
+  document.getElementById('needChips').innerHTML = NEEDS.map(nd=>
+    `<div class="chip" data-n="${nd.k}" onclick="pickNeed(this,'${nd.k}')" title="${nd.d}">${nd.k}</div>`).join('');
+}
+function pickNeed(el,n){
+  form.need=n;
+  document.querySelectorAll('#needChips .chip').forEach(c=>c.classList.remove('sel'));
+  el && el.classList.add('sel');
+  renderSuggest();
+}
+function renderSuggest(){
+  const panel=document.getElementById('suggestPanel');
+  if(!panel) return;
+  if(form.kind!=='reteach'){ panel.innerHTML=''; return; }
+  if(!form.need){ panel.innerHTML='<p class="muted">Pick what the behavior is reaching for to see suggested supports.</p>'; return; }
+  panel.innerHTML = `<h3>💡 Suggested supports</h3>${matchStrategies(form.need,3).map(stratCard).join('')}
+    <p class="muted">Coaching ideas, not a diagnosis. Safety or clinical concerns → counselor / Tier 2 team.</p>`;
+}
+
+/* ---------- strategy library tab ---------- */
+let libLens='All', libNeed='All';
+function renderLibrary(){
+  document.getElementById('libLens').innerHTML =
+    ['All',...LENSES].map(l=>`<div class="chip ${l===libLens?'sel':''}" onclick="libLens='${l.replace(/'/g,"\\'")}';renderLibrary()">${esc(l)}</div>`).join('');
+  document.getElementById('libNeed').innerHTML =
+    ['All',...NEEDS.map(n=>n.k)].map(n=>`<div class="chip ${n===libNeed?'sel':''}" onclick="libNeed='${n}';renderLibrary()">${esc(n)}</div>`).join('');
+  let list=STRATEGIES.filter(s=>(libLens==='All'||s.lens===libLens) && (libNeed==='All'||s.needs.includes(libNeed)||s.needs.includes('any')));
+  document.getElementById('libList').innerHTML = list.length? list.map(stratCard).join('') : '<p class="muted">No strategies match that filter.</p>';
+}
+
+/* ---------- voice ---------- */
+function toggleMic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('Speech not supported here — try Chrome or Edge. You can still type.'); return; }
+  if(listening){ rec && rec.stop(); return; }
+  rec = new SR(); rec.continuous=true; rec.interimResults=true; rec.lang='en-US';
+  const btn=document.getElementById('micBtn');
+  let base = document.getElementById('note').value;
+  rec.onstart=()=>{listening=true; btn.classList.add('live'); btn.innerHTML='🔴 &nbsp;Listening… tap to stop';};
+  rec.onerror=(e)=>{ toast('Mic error: '+e.error); };
+  rec.onend=()=>{listening=false; btn.classList.remove('live'); btn.innerHTML='🎤 &nbsp;Tap to talk'; autoTag();};
+  rec.onresult=(ev)=>{
+    let txt='';
+    for(let i=0;i<ev.results.length;i++){ txt+=ev.results[i][0].transcript; }
+    document.getElementById('note').value=(base?base+' ':'')+txt;
+    autoTag();
+  };
+  rec.start();
+}
+
+/* ---------- the "AI" tagger (keyword heuristic; a real build calls an LLM) ---------- */
+function autoTag(){
+  const t = document.getElementById('note').value.toLowerCase();
+  if(t.trim().length<4){ document.getElementById('aiNote').style.display='none'; return; }
+  let guessKind=null, guessTribe=null, guessSetting=null;
+
+  const neg = /\b(refus|disrupt|fight|threw|threw|cussed|cursing|out of seat|off task|talking back|disrespect|hit|push|yelling|tardy|phone out|horseplay|left class|argu)\w*/;
+  const pos = /\b(helped|held the door|shared|included|invited|on time|great effort|asked for help|told the truth|cleaned|led|kind|volunteer|encourag|finished|focused)\w*/;
+  if(neg.test(t)) guessKind='reteach';
+  else if(pos.test(t)) guessKind='recognition';
+
+  const map = {
+    Together:/\b(help|shared|includ|invit|team|together|partner|welcom)/,
+    Respectful:/\b(respect|kind|quiet|please|thank|listen|low voice|hands to)/,
+    Invested:/\b(on time|focus|effort|work|goal|task|ready|pass|engag)/,
+    Brave:/\b(told the truth|asked for help|brave|spoke up|tried|leader|led|honest)/,
+    Excellent:/\b(best|pride|finished|clean|excellent|quality|complete)/
+  };
+  for(const k in map){ if(map[k].test(t)){ guessTribe=k; break; } }
+
+  const sset = {Hallway:/hall|door/,Cafeteria:/caf|lunch|table/,Gym:/gym|p\.?e\.?|ball|whistle/,
+    Restrooms:/restroom|bathroom/,Library:/librar|book|media/,'Front Office':/office/,Classroom:/class|seat|desk|lesson/};
+  for(const k in sset){ if(sset[k].test(t)){ guessSetting=k; break; } }
+
+  let msgs=[];
+  if(guessKind && !form.kind){ pickKind(document.querySelector(`[data-kind="${guessKind}"]`),guessKind); msgs.push(guessKind==='recognition'?'🌟 Recognition':'🔁 Re-teach'); }
+  if(guessTribe && !form.tribe){ pickTribe(document.querySelector(`[data-t="${guessTribe}"]`),guessTribe); msgs.push(guessTribe); }
+  if(guessSetting){ document.getElementById('settingSel').value=guessSetting; msgs.push('📍 '+guessSetting); }
+
+  const ai=document.getElementById('aiNote');
+  ai.style.display='block';
+  ai.innerHTML = msgs.length
+    ? `<b>Assistant suggests:</b> ${msgs.join(' · ')} &nbsp;<span class="muted">(tap any tag to change)</span>`
+    : `<b>Assistant:</b> couldn’t auto-tag this one — pick the value and type below.`;
+}
+
+/* ---------- chip pickers ---------- */
+function pickKind(el,k){
+  form.kind=k;
+  document.querySelectorAll('#kindChips .chip').forEach(c=>c.classList.remove('sel'));
+  el && el.classList.add('sel');
+  document.getElementById('managedWrap').style.display = k==='reteach'?'block':'none';
+  renderSuggest();
+}
+function pickTribe(el,k){
+  form.tribe=k;
+  document.querySelectorAll('#tribeChips .chip').forEach(c=>c.classList.remove('sel'));
+  el && el.classList.add('sel');
+}
+function pickManaged(el,m){
+  form.managed=m;
+  document.querySelectorAll('#managedChips .chip').forEach(c=>c.classList.remove('sel'));
+  el && el.classList.add('sel');
+  document.getElementById('r5Wrap').style.display = 'block';
+  document.getElementById('officeWarn').style.display = m==='office'?'block':'none';
+}
+function pickR5(el,r){
+  el.classList.toggle('sel');
+  form.r5 = [...document.querySelectorAll('#r5Chips .chip.sel')].map(c=>c.dataset.r);
+}
+
+/* ---------- save ---------- */
+function saveEntry(){
+  const note=document.getElementById('note').value.trim();
+  const sid=document.getElementById('studentSel').value;
+  if(!sid){ toast('Pick a student (load a roster in Setup).'); return; }
+  if(!form.kind){ toast('Is this a Recognition or a Re-teach?'); return; }
+  if(!note){ toast('Add a quick note (or dictate one).'); return; }
+  const e={
+    id:'e'+Date.now(), sid, teacher:state.teacher, note,
+    kind:form.kind, tribe:form.tribe, setting:document.getElementById('settingSel').value,
+    managed: form.kind==='reteach'?form.managed:null, r5:[...form.r5],
+    need: form.kind==='reteach'?form.need:null,
+    ts:Date.now()
+  };
+  state.entries.unshift(e); DB.save(state);
+  toast(form.kind==='recognition'?'🌟 GoodCatch logged!':'Re-teach logged.');
+  clearForm(); renderRecent();
+}
+function clearForm(){
+  document.getElementById('note').value='';
+  document.getElementById('aiNote').style.display='none';
+  form={kind:null,tribe:null,managed:null,r5:[],need:null};
+  document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
+  const sp=document.getElementById('suggestPanel'); if(sp) sp.innerHTML='';
+  document.getElementById('managedWrap').style.display='none';
+  document.getElementById('r5Wrap').style.display='none';
+  document.getElementById('officeWarn').style.display='none';
+}
+
+/* ---------- recent ---------- */
+function studentName(id){ const s=state.students.find(x=>x.id===id); return s?s.name:'?'; }
+function studentGrade(id){ const s=state.students.find(x=>x.id===id); return s?s.grade:'?'; }
+function entryHTML(e){
+  const k = e.kind==='recognition'
+    ? `<span class="pill good">🌟 Recognition</span>`
+    : `<span class="pill warn">🔁 Re-teach</span>`;
+  const off = e.managed==='office'?`<span class="pill office">Office-managed</span>`:'';
+  const tr = e.tribe?`<span class="pill tribe">${e.tribe}</span>`:'';
+  const r5 = (e.r5&&e.r5.length)?` · R5: ${e.r5.join('→')}`:'';
+  return `<div class="entry">
+    <div><b class="clickable" onclick="openStudent('${e.sid}')">${esc(studentName(e.sid))}</b> ${k} ${tr} ${off}</div>
+    <div>${esc(e.note)}</div>
+    <div class="meta">📍 ${esc(e.setting)} · ${esc(e.teacher)} · ${timeAgo(e.ts)}${r5}</div>
+  </div>`;
+}
+function renderRecent(){
+  const mine=state.entries.slice(0,8);
+  document.getElementById('recentList').innerHTML = mine.length? mine.map(entryHTML).join('') : '<p class="muted">Nothing yet today.</p>';
+}
+
+/* ---------- students tab ---------- */
+function renderStudents(){
+  const q=(document.getElementById('studentSearch').value||'').toLowerCase();
+  const list=state.students.filter(s=>s.name.toLowerCase().includes(q));
+  document.getElementById('studentList').innerHTML = list.length? `<table>
+    <tr><th>Student</th><th>Grade</th><th>🌟</th><th>🔁</th><th>Last logged</th></tr>
+    ${list.map(s=>{
+      const es=state.entries.filter(e=>e.sid===s.id);
+      const pos=es.filter(e=>e.kind==='recognition').length;
+      const neg=es.filter(e=>e.kind==='reteach').length;
+      const last=es[0]?timeAgo(es[0].ts):'—';
+      return `<tr class="clickable" onclick="openStudent('${s.id}')"><td><b>${esc(s.name)}</b></td><td>${s.grade}</td><td>${pos}</td><td>${neg}</td><td class="muted">${last}</td></tr>`;
+    }).join('')}</table>` : '<p class="muted">No students. Load a roster in Setup.</p>';
+}
+function openStudent(id){
+  tab('students');
+  const s=state.students.find(x=>x.id===id); if(!s) return;
+  const es=state.entries.filter(e=>e.sid===id);
+  const pos=es.filter(e=>e.kind==='recognition').length, neg=es.filter(e=>e.kind==='reteach').length;
+  const ratio = neg? (pos/neg).toFixed(1)+' : 1' : (pos?'all positive':'—');
+  const tier2 = neg>=3;
+  document.getElementById('studentDetail').innerHTML = `<div class="card">
+    <h2>${esc(s.name)} <span class="muted" style="font-weight:400">· Grade ${s.grade}</span></h2>
+    ${tier2?`<div class="ai-note" style="background:#fff6ee;border-color:#f0c9a0"><b style="color:var(--warn)">Tier 2 signal:</b> ${neg} re-teach entries. Per your framework, this is a cue for <b>support</b>, not a heavier consequence. Loop in the Tier 2 team.</div>`:''}
+    <div class="stat" style="margin:12px 0">
+      <div class="box"><div class="n">${pos}</div><div class="l">Recognitions</div></div>
+      <div class="box"><div class="n">${neg}</div><div class="l">Re-teach</div></div>
+      <div class="box"><div class="n">${ratio}</div><div class="l">Pos : Re-teach</div></div>
+      <div class="box"><div class="n">${new Set(es.map(e=>e.teacher)).size}</div><div class="l">Adults logging</div></div>
+    </div>
+    ${(()=>{
+      if(!tier2) return '';
+      const counts={}; es.filter(e=>e.kind==='reteach'&&e.need).forEach(e=>counts[e.need]=(counts[e.need]||0)+1);
+      const top=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0];
+      const strat = top? matchStrategies(top,3) : ['twobyten','cps','fba'].map(id=>STRATEGIES.find(s=>s.id===id));
+      return `<h3>💡 Suggested supports${top?` — reading for “${esc(top)}”`:''}</h3>${strat.map(stratCard).join('')}`;
+    })()}
+    ${(()=>{ const ds=state.docs.filter(d=>d.sid===id); return ds.length?`<h3>📋 Documentation forms</h3>${ds.map(docHTML).join('')}`:''; })()}
+    <h3>Documentation timeline — every adult sees this</h3>
+    ${es.length? es.map(entryHTML).join('') : '<p class="muted">No entries yet.</p>'}
+  </div>`;
+  document.getElementById('studentDetail').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---------- office dashboard ---------- */
+function renderOffice(){
+  const es=state.entries;
+  const pos=es.filter(e=>e.kind==='recognition').length;
+  const neg=es.filter(e=>e.kind==='reteach').length;
+  const office=es.filter(e=>e.managed==='office').length;
+  const homes = '—';
+  document.getElementById('officeStats').innerHTML = `
+    <div class="box"><div class="n">${es.length}</div><div class="l">Total logged</div></div>
+    <div class="box"><div class="n">${pos}</div><div class="l">🌟 Recognitions</div></div>
+    <div class="box"><div class="n">${neg}</div><div class="l">🔁 Re-teach</div></div>
+    <div class="box"><div class="n">${neg?(pos/neg).toFixed(1):pos}</div><div class="l">Pos : Re-teach ratio</div></div>
+    <div class="box"><div class="n">${state.docs.length}</div><div class="l">📋 Documentation forms</div></div>
+    <div class="box"><div class="n">${state.docs.filter(d=>d.referral).length}</div><div class="l">Admin referrals</div></div>`;
+
+  // tier 2
+  const watch = state.students.map(s=>({s,neg:es.filter(e=>e.sid===s.id&&e.kind==='reteach').length}))
+    .filter(x=>x.neg>=3).sort((a,b)=>b.neg-a.neg);
+  document.getElementById('tier2List').innerHTML = watch.length? `<table>
+    <tr><th>Student</th><th>Grade</th><th>Re-teach count</th><th></th></tr>
+    ${watch.map(x=>`<tr class="flag clickable" onclick="openStudent('${x.s.id}')"><td><b>${esc(x.s.name)}</b></td><td>${x.s.grade}</td><td>${x.neg}</td><td class="muted">review for support →</td></tr>`).join('')}
+  </table>` : '<p class="muted">No students at the Tier 2 threshold. 🎉</p>';
+
+  document.getElementById('byTribe').innerHTML = barChart(TRIBE.map(t=>t.k), k=>es.filter(e=>e.tribe===k).length);
+  document.getElementById('bySetting').innerHTML = barChart(SETTINGS, k=>es.filter(e=>e.setting===k).length);
+
+  const grades=[...new Set(state.students.map(s=>s.grade))].sort();
+  document.getElementById('byGrade').innerHTML = grades.length? `<table>
+    <tr><th>Grade</th><th>🌟 Recognition</th><th>🔁 Re-teach</th><th>Ratio</th><th></th></tr>
+    ${grades.map(g=>{
+      const ids=state.students.filter(s=>s.grade===g).map(s=>s.id);
+      const p=es.filter(e=>ids.includes(e.sid)&&e.kind==='recognition').length;
+      const n=es.filter(e=>ids.includes(e.sid)&&e.kind==='reteach').length;
+      const r=n?(p/n).toFixed(1):p;
+      const pct=p+n? Math.round(p/(p+n)*100):0;
+      return `<tr><td>Grade ${g}</td><td>${p}</td><td>${n}</td><td>${r}</td><td style="width:120px"><div class="bar"><span style="width:${pct}%"></span></div></td></tr>`;
+    }).join('')}
+  </table><p class="muted" style="margin-top:8px">Bar = share that is positive. In production this also disaggregates by race &amp; disability status (Section 11), which the demo can’t fabricate.</p>` : '<p class="muted">Load a roster to see this.</p>';
+}
+function barChart(keys, countFn){
+  const data=keys.map(k=>({k,n:countFn(k)})).filter(d=>d.n>0).sort((a,b)=>b.n-a.n);
+  const max=Math.max(1,...data.map(d=>d.n));
+  if(!data.length) return '<p class="muted">No data yet.</p>';
+  return data.map(d=>`<div style="margin:7px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${esc(d.k)}</span><b>${d.n}</b></div><div class="bar"><span style="width:${Math.round(d.n/max*100)}%"></span></div></div>`).join('');
+}
+
+/* ---------- setup ---------- */
+function importRoster(){
+  const lines=document.getElementById('rosterPaste').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!lines.length){ toast('Paste some names first.'); return; }
+  lines.forEach(l=>{ const [name,grade]=l.split(',').map(x=>x.trim()); if(name) state.students.push({id:'s'+Date.now()+Math.random().toString(36).slice(2,6),name,grade:grade||'?'}); });
+  DB.save(state); refreshAll(); toast('Imported '+lines.length+' students.');
+}
+function importTeachers(){
+  const t=document.getElementById('teacherPaste').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(t.length){ state.teachers=t; state.teacher=t[0]; DB.save(state); init(); toast('Teachers updated.'); }
+}
+function loadSample(){
+  const names=[['Marcus Bell','6'],['Aaliyah Carter','7'],['Diego Romero','8'],['Jada White','6'],['Tyrese Goodwin','7'],['Sofia Nguyen','8'],['Andre Foster','6'],['Keisha Brooks','7']];
+  state.students = names.map((n,i)=>({id:'s'+i,name:n[0],grade:n[1]}));
+  const T=state.teachers, settings=SETTINGS, tv=TRIBE.map(t=>t.k);
+  const notes=[['recognition','Held the door for the whole class — pure Together.'],['recognition','Asked for help out loud instead of shutting down. Brave.'],['recognition','On time, goal set, eyes on the work.'],['recognition','Cleaned the table without being asked.'],['recognition','Welcomed a new student to the group.'],['reteach','Phone out during the lesson; re-taught the expectation, back on task.'],['reteach','Loud in the hallway; walked it back with a quick reminder.'],['reteach','Refused to start the task at first; read the need, gave space, returned.']];
+  state.entries=[];
+  for(let i=0;i<40;i++){
+    const st=state.students[i%state.students.length];
+    const isPos = Math.random()<0.72;
+    const n = notes.filter(x=>x[0]===(isPos?'recognition':'reteach'))[Math.floor(Math.random()*4)];
+    const e={id:'e'+i,sid:st.id,teacher:T[i%T.length],note:n[1],kind:n[0],tribe:tv[i%5],setting:settings[i%settings.length],managed:n[0]==='reteach'?(Math.random()<0.15?'office':'staff'):null,r5:n[0]==='reteach'?['Read','Regulate','Re-teach','Return']:[],ts:Date.now()-i*36e5};
+    state.entries.push(e);
+  }
+  // make one student a clear Tier-2 example
+  ['x1','x2','x3','x4'].forEach((x,i)=>state.entries.push({id:x,sid:'s2',teacher:T[i%T.length],note:'Repeated off-task; re-taught and returned.',kind:'reteach',tribe:'Invested',setting:'Classroom',managed:'staff',r5:['Read','Re-teach','Return'],ts:Date.now()-i*5e6}));
+  const td=new Date().toISOString().slice(0,10);
+  state.docs=[{id:'d1',sid:'s2',teacher:T[0],style:'putnam',offenseClass:'minor',ts:Date.now()-3e6,referral:false,disposition:['Tier 2 Support'],steps:[
+    {n:1,label:'Step 1 · Read & Re-teach',loc:'In Class',date:td,facts:'Off-task at the start of independent work; named the need, re-taught the expectation, set a goal together.',tsig:T[0],ssig:'A.C.'},
+    {n:2,label:'Step 2 · Regulate & Repair',loc:'In Class',date:td,facts:'Brief water-fountain reset, returned and finished the task.',tsig:T[0],ssig:'A.C.'},
+    {n:3,label:'Step 3 · Phone conference with parent',loc:'Out of Class',date:td,facts:'Positive-first call home; family on board, will check in nightly.',tsig:T[0],ssig:''}]}];
+  DB.save(state); refreshAll(); toast('Sample roster + entries + form loaded.');
+}
+function wipe(){ if(confirm('Erase all demo data from this browser?')){ localStorage.removeItem('panther'); state={students:[],teachers:['Ms. Johnson','Mr. Davis'],entries:[],docs:[],teacher:'Ms. Johnson'}; DB.save(state); refreshAll(); toast('Wiped.'); } }
+
+/* ---------- misc ---------- */
+function setTeacher(){ state.teacher=document.getElementById('teacherSel').value; DB.save(state); }
+function tab(name){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  ['log','doc','support','students','office','setup'].forEach(n=>document.getElementById('tab-'+n).classList.toggle('hidden',n!==name));
+  if(name==='doc') renderDocForm();
+  if(name==='support') renderLibrary();
+  if(name==='students') renderStudents();
+  if(name==='office') renderOffice();
+}
+function refreshAll(){ init(); renderStudents(); renderOffice(); }
+function esc(s){ return (s+'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function timeAgo(ts){ const m=Math.floor((Date.now()-ts)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; const h=Math.floor(m/60); if(h<24)return h+'h ago'; return Math.floor(h/24)+'d ago'; }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function exportCSV(){
+  const rows=[['date','student','grade','teacher','kind','tribe','setting','managed','r5','note']];
+  state.entries.forEach(e=>rows.push([new Date(e.ts).toISOString(),studentName(e.sid),studentGrade(e.sid),e.teacher,e.kind,e.tribe||'',e.setting,e.managed||'',(e.r5||[]).join('|'),e.note.replace(/\n/g,' ')]));
+  const csv=rows.map(r=>r.map(c=>`"${(c+'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='panther-tribe-entries.csv'; a.click();
+}
+
+init();
+</script>
+</body>
+</html>
