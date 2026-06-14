@@ -834,7 +834,7 @@ function importTeachers(){
   const t=document.getElementById('teacherPaste').value.split('\n').map(l=>l.trim()).filter(Boolean);
   if(t.length){ state.teachers=t; state.teacher=t[0]; DB.save(state); init(); toast('Teachers updated.'); }
 }
-function loadSample(){
+function loadSample(silent){
   const names=[['Marcus Bell','6'],['Aaliyah Carter','7'],['Diego Romero','8'],['Jada White','6'],['Tyrese Goodwin','7'],['Sofia Nguyen','8'],['Andre Foster','6'],['Keisha Brooks','7']];
   state.students = names.map((n,i)=>({id:'s'+i,name:n[0],grade:n[1]}));
   const T=state.teachers, settings=SETTINGS, tv=TRIBE.map(t=>t.k);
@@ -854,7 +854,7 @@ function loadSample(){
     {n:1,label:'Step 1 · Read & Re-teach',loc:'In Class',date:td,facts:'Off-task at the start of independent work; named the need, re-taught the expectation, set a goal together.',tsig:T[0],ssig:'A.C.'},
     {n:2,label:'Step 2 · Regulate & Repair',loc:'In Class',date:td,facts:'Brief water-fountain reset, returned and finished the task.',tsig:T[0],ssig:'A.C.'},
     {n:3,label:'Step 3 · Phone conference with parent',loc:'Out of Class',date:td,facts:'Positive-first call home; family on board, will check in nightly.',tsig:T[0],ssig:''}]}];
-  DB.save(state); refreshAll(); toast('Sample roster + entries + form loaded.');
+  DB.save(state); refreshAll(); if(!silent) toast('Sample roster + entries + form loaded.');
 }
 function wipe(){ if(confirm('Erase all demo data from this browser?')){ localStorage.removeItem('panther'); state={students:[],teachers:['Ms. Johnson','Mr. Davis'],entries:[],docs:[],teacher:'Ms. Johnson'}; DB.save(state); refreshAll(); toast('Wiped.'); } }
 
@@ -879,9 +879,9 @@ function exportCSV(){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='panther-tribe-entries.csv'; a.click();
 }
 
+// Demo nicety: arrive to a living classroom, not an empty one — seed BEFORE first paint, silently
+if(!state.students || state.students.length===0){ try{ loadSample(true); }catch(e){} }
 init();
-// Demo nicety: arrive to a living classroom, not an empty one
-if(!state.students || state.students.length===0){ try{ loadSample(); refreshAll(); }catch(e){} }
 </script>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg1cAv9cc_BMKyuGvlxY6NH9Yb0hwEO37w-waaz5voPgraMA/viewform" target="_blank" style="position:fixed;bottom:22px;right:22px;z-index:9999;background:#1b7a3d;color:#fff;font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:15px;padding:13px 20px;border-radius:999px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.25);">💬 Give feedback</a>
 </body>
