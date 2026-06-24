@@ -173,6 +173,10 @@
   /* footer */
   footer{border-top:1px solid var(--line);padding:36px 0 48px;font-size:.88rem;color:#7d958a;}
   .foot-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;}
+  /* scroll-in animations */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
 </style>
 </head>
 <body>
@@ -441,6 +445,8 @@
       <dl class="fact-card">
         <dt>Company</dt><dd>4 Black Centuries LLC</dd>
         <dt>Founder</dt><dd>Eli M. Davis · Ph.D. candidate, University of South Carolina</dd>
+        <dt>Experience</dt><dd>28 years with people with disabilities, since 1998 — group homes &amp; the special-education classroom</dd>
+        <dt>Training</dt><dd>B.A. Psychology &amp; graduate-level Applied Behavior Analysis, University of Wisconsin-Milwaukee</dd>
         <dt>Founded</dt><dd>2023 · Alabama</dd>
         <dt>Headquarters</dt><dd>Leeds, Alabama</dd>
         <dt>Focus</dt><dd>School behavior support software (PBIS)</dd>
@@ -507,6 +513,26 @@
     <span>GoodCatch™ — Catch them being good.</span>
   </div>
 </footer>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var sel = '.kicker,h1,h2,h3,.section-lede,.card,.step,.trust-item,.chip,.fact-card,.value-chips,.hero-grid>div,.contact p,.btn';
+  var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+  els.forEach(function(el){
+    el.classList.add('reveal');
+    var sibs = Array.prototype.filter.call(el.parentNode.children, function(c){ return c.classList && c.classList.contains('reveal'); });
+    var i = sibs.indexOf(el);
+    if (i > 0) el.style.transitionDelay = Math.min(i, 6) * 0.06 + 's';
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
