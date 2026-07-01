@@ -251,6 +251,11 @@ Your feedback is gold: <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg1cAv
 <!-- ============ OFFICE ============ -->
 <section id="tab-office" class="hidden">
   <div class="card">
+    <h2>👀 GoodCatch noticed</h2>
+    <p class="muted">The app reads the school's own logged moments and speaks up on its own — patterns a busy team would miss.</p>
+    <div id="noticedList"></div>
+  </div>
+  <div class="card">
     <h2>Office Dashboard</h2>
     <p class="muted">What your PBIS team reviews monthly (Section 11). Recognition-first, with equity in view.</p>
     <div class="stat" id="officeStats"></div>
@@ -778,7 +783,38 @@ function openStudent(id){
 }
 
 /* ---------- office dashboard ---------- */
+// The agentic layer, demo-scale: same idea as production — deterministic
+// pattern detection over the school's own logged data, phrased like a
+// colleague who's been paying attention.
+function renderNoticed(){
+  const es=state.entries, out=[];
+  if(es.length){
+    // Re-teach hotspot by setting
+    const neg=es.filter(e=>e.kind==='reteach');
+    const bySet={}; neg.forEach(e=>bySet[e.setting]=(bySet[e.setting]||0)+1);
+    const hot=Object.entries(bySet).sort((a,b)=>b[1]-a[1])[0];
+    if(hot && hot[1]>=3) out.push(`<b>Worth a look:</b> re-teaches cluster in the <b>${esc(hot[0])}</b> — ${hot[1]} of ${neg.length}. The next booster lesson points there.`);
+    // Quiet star: most-recognized student with zero re-teaches
+    const star=state.students.map(s=>({s,
+        pos:es.filter(e=>e.sid===s.id&&e.kind==='recognition').length,
+        neg:es.filter(e=>e.sid===s.id&&e.kind==='reteach').length}))
+      .filter(x=>x.pos>=3&&x.neg===0).sort((a,b)=>b.pos-a.pos)[0];
+    if(star) out.push(`<b>Quiet win:</b> <span class="clickable" onclick="openStudent('${star.s.id}')" style="text-decoration:underline"><b>${esc(star.s.name)}</b></span> has ${star.pos} recognitions and zero re-teaches — and no certificate on file yet. Worth naming out loud.`);
+    // Ratio vs the 4:1 target
+    const pos=es.length-neg.length, r=neg.length?pos/neg.length:null;
+    if(r!==null) out.push(r<4
+      ? `<b>I noticed</b> the recognition ratio is running <b>${r.toFixed(1)}:1</b> — under the 4:1 target. A recognition push closes the gap.`
+      : `<b>Good news:</b> the building is running <b>${r.toFixed(1)}:1</b> positive — at or above the 4:1 target. Keep catching them.`);
+    // Students nobody has logged at all
+    const unseen=state.students.filter(s=>!es.some(e=>e.sid===s.id));
+    if(unseen.length>=2) out.push(`<b>The invisible-kid check:</b> ${unseen.length} students haven't been logged at all — ${unseen.slice(0,3).map(x=>esc(x.name)).join(', ')}${unseen.length>3?' and others':''} may be flying under the radar.`);
+  }
+  document.getElementById('noticedList').innerHTML = out.length
+    ? out.slice(0,4).map(t=>`<div class="ai-note">${t}</div>`).join('')
+    : '<p class="muted">Nothing logged yet — GoodCatch starts noticing as soon as moments come in.</p>';
+}
 function renderOffice(){
+  renderNoticed();
   const es=state.entries;
   const pos=es.filter(e=>e.kind==='recognition').length;
   const neg=es.filter(e=>e.kind==='reteach').length;
