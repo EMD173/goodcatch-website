@@ -139,7 +139,7 @@
     <div class="navrow">
       <div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
       <button class="btn primary" onclick="go('s-demo')">Try it yourself &mdash; 3 taps &rarr;</button>
-      <button class="btn quiet" onclick="go('s-welcome')">&larr; back</button>
+      <button class="btn quiet" onclick="go('s-welcome')">&#8635; start over</button>
     </div>
   </section>
 
@@ -158,6 +158,7 @@
       <div class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
       <button class="btn primary" id="demo-next" style="display:none" onclick="go('s-story')">Why that mattered &rarr;</button>
       <button class="btn quiet" onclick="back('s-open')">&larr; back</button>
+      <button class="btn quiet" onclick="go('s-welcome')">&#8635; start over</button>
     </div>
   </section>
 
@@ -186,6 +187,7 @@
       <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
       <button class="btn primary" onclick="go('s-ask')">The part about you &rarr;</button>
       <button class="btn quiet" onclick="back('s-demo')">&larr; back</button>
+      <button class="btn quiet" onclick="go('s-welcome')">&#8635; start over</button>
     </div>
   </section>
 
@@ -202,6 +204,7 @@
       <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
       <button class="btn green" onclick="go('s-close')">One last thing &rarr;</button>
       <button class="btn quiet" onclick="back('s-story')">&larr; back</button>
+      <button class="btn quiet" onclick="go('s-welcome')">&#8635; start over</button>
     </div>
   </section>
 
@@ -394,10 +397,41 @@ function dSave(){
     '<div class="ripple"><span class="tick">✓</span><span>Logged to ' + demoStudent.n + '’s timeline — every adult in the building can now see the good.</span></div>' +
     '<div class="ripple"><span class="tick">✓</span><span>A positive note home just drafted itself for the teacher to approve.</span></div>' +
     '<div class="ripple"><span class="tick">✓</span><span>And if this had been a write-up instead — the district’s required referral form would have filled itself out.</span></div>' +
-    '<p class="muted" style="margin-top:10px">Notice what you didn’t do: find a desktop, hunt a form, write a paragraph.</p>';
+    '<p class="muted" style="margin-top:10px">Notice what you didn’t do: find a desktop, hunt a form, write a paragraph.</p>' +
+    voiceNoteHTML();
   setHTML("demo-stage", h);
   confetti();
   var nx=document.getElementById("demo-next"); if(nx) nx.style.display="block";
+}
+
+/* ---------- optional talk-to-text (progressive: renders only when supported) ---------- */
+function voiceSupported(){
+  try { return !!(window.SpeechRecognition || window.webkitSpeechRecognition); } catch(e){ return false; }
+}
+function voiceNoteHTML(){
+  if (!voiceSupported()) return "";
+  return '<div style="margin-top:14px;border-top:1px solid var(--hair);padding-top:12px;text-align:left">' +
+    '<p class="muted" style="font-family:var(--sans);font-size:12px;margin-bottom:8px">In the real app you can also <b>talk instead of tap</b> — try it:</p>' +
+    '<button class="btn quiet" id="vbtn" onclick="voiceNote()" style="border:1.5px dashed var(--green);color:var(--green-deep);font-weight:700;min-height:48px">&#127908; Add a note by voice (optional)</button>' +
+    '<p id="vout" class="muted" style="margin-top:8px;font-style:italic"></p></div>';
+}
+function voiceNote(){
+  try{
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return;
+    var btn = document.getElementById('vbtn'), out = document.getElementById('vout');
+    if (window.__boostRec) { try{ window.__boostRec.stop(); }catch(e){} return; }
+    var r = new SR(); r.lang = 'en-US'; r.interimResults = true; window.__boostRec = r;
+    if (btn) btn.innerHTML = '&#128308; Listening&hellip; tap to stop';
+    r.onresult = function(ev){
+      var t = '';
+      for (var i = 0; i < ev.results.length; i++) t += ev.results[i][0].transcript;
+      if (out && t) out.textContent = '“' + t + '” — noted. In the real app this files with the catch, hands-free.';
+    };
+    r.onend = function(){ window.__boostRec = null; if (btn) btn.innerHTML = '&#127908; Add a note by voice (optional)'; };
+    r.onerror = function(){ window.__boostRec = null; if (btn) btn.innerHTML = '&#127908; Add a note by voice (optional)'; };
+    r.start();
+  }catch(e){}
 }
 
 /* ---------- confetti ---------- */
@@ -420,6 +454,7 @@ function confetti(){
 /* expose handlers */
 window.pick = pick; window.go = go; window.back = back;
 window.dPick = dPick; window.dVal = dVal; window.dSave = dSave;
+window.voiceNote = voiceNote;
 
 /* light swipe support (forward/back through the arc) */
 try{
