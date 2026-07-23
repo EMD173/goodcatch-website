@@ -426,7 +426,14 @@
       dots.forEach(function(d, j){ d.classList.toggle('on', j === i); });
       backBtn.disabled = i === 0;
       nextBtn.textContent = i === steps.length - 1 ? 'Reach me →' : 'Next →';
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      // Spring-load back to the top — the plain two-arg form, after layout,
+      // on every scroller iOS might be using. The fancy options object is
+      // ignored by some mobile Safaris.
+      requestAnimationFrame(function(){
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
     }
     nextBtn.addEventListener('click', function(){
       if (i === steps.length - 1) {
