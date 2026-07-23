@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Eli M. Davis — Agentic data collection for Memphis-Shelby County classrooms</title>
+<meta name="description" content="A note for Dr. Charlotte Danley. Giving teachers their time back by putting data collection in the phone already in their hand. From Eli M. Davis, Founder, 4 Black Centuries LLC." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#16213e" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" type="image/png" href="./favicon.png" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Eli M. Davis" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://goodcatchapp.com/danley/" />
+<meta property="og:site_name" content="Eli M. Davis · 4 Black Centuries" />
+<meta property="og:title" content="For Dr. Charlotte Danley — put the data collection in the teacher's hand" />
+<meta property="og:description" content="Give teachers their time back, and give it back to the children. A note from Eli M. Davis, Ph.D. Candidate & founder of 4 Black Centuries LLC." />
+<meta property="og:image" content="https://goodcatchapp.com/og-card.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Put the data collection in the teacher's hand. Eli M. Davis, 4 Black Centuries." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="For Dr. Charlotte Danley — put the data collection in the teacher's hand" />
+<meta name="twitter:description" content="Give teachers their time back, and give it back to the children." />
+<meta name="twitter:image" content="https://eli-davis-edu.vercel.app/og-card.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --indigo:#16213e;        /* adire indigo, deep ground */
+    --indigo-2:#1f2d52;
+    --ink:#101626;
+    --gold:#d9a521;          /* ochre gold, the lineage thread */
+    --gold-soft:#f0c75e;
+    --cream:#f7f2e7;
+    --cream-2:#efe7d4;
+    --paper:#fffdf8;
+    --muted:#5d6478;
+    --line:#e4dcc8;
+    --shadow:0 18px 50px -28px rgba(16,22,38,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{
+    max-width:560px;
+    margin:0 auto;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  /* the gold thread of lineage running down the page */
+  .thread{
+    position:absolute;
+    top:0;left:34px;width:2px;height:100%;
+    background:linear-gradient(180deg,var(--gold) 0%,rgba(217,165,33,.15) 100%);
+    z-index:1;
+  }
+  section{position:relative;z-index:2;padding:30px 26px 30px 50px}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 80% at 80% -10%, rgba(217,165,33,.20), transparent 60%),
+      linear-gradient(165deg,var(--indigo) 0%,var(--ink) 100%);
+    color:var(--cream);
+    padding-top:40px;padding-bottom:38px;
+  }
+  .hero .thread-dot{
+    position:absolute;left:28px;top:46px;width:16px;height:16px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 0 5px rgba(217,165,33,.22);
+  }
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold-soft);margin-bottom:16px;
+  }
+  .hero h1{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:600;
+    font-size:clamp(30px,8.5vw,40px);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin-bottom:14px;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-soft)}
+  .hero .sub{font-size:16px;color:rgba(247,242,231,.82);max-width:34ch}
+  .hero .who{
+    margin-top:22px;padding-top:18px;border-top:1px solid rgba(247,242,231,.16);
+    font-size:13.5px;color:rgba(247,242,231,.72);
+  }
+  .hero .who strong{color:var(--cream);font-weight:600}
+
+  /* ---------- the note ---------- */
+  .salute{background:var(--cream)}
+  .kicker{
+    font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:12px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .kicker::before{content:"";width:18px;height:2px;background:var(--gold)}
+  .salute h2{
+    font-family:"Fraunces",serif;font-weight:500;font-size:21px;line-height:1.25;
+    color:var(--indigo);margin-bottom:14px;
+  }
+  .salute p{font-size:15.5px;color:#3a4156;margin-bottom:13px}
+  .salute p:last-child{margin-bottom:0}
+  .salute .warm{color:var(--muted);font-size:14.5px;font-style:italic}
+
+  /* ---------- the idea ---------- */
+  .idea{background:var(--paper)}
+  .idea h2{
+    font-family:"Fraunces",serif;font-weight:600;font-size:24px;line-height:1.2;
+    color:var(--indigo);margin-bottom:8px;letter-spacing:-.01em;
+  }
+  .idea .lead{font-size:15.5px;color:#3a4156;margin-bottom:22px}
+  .flow{display:flex;flex-direction:column;gap:0}
+  .step{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:14px 0;border-top:1px solid var(--line);
+  }
+  .step:first-child{border-top:none;padding-top:4px}
+  .step .num{
+    flex:0 0 30px;height:30px;border-radius:50%;
+    background:var(--indigo);color:var(--gold-soft);
+    font-family:"JetBrains Mono",monospace;font-size:13px;
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .step .body strong{display:block;color:var(--ink);font-weight:600;font-size:15.5px;margin-bottom:2px}
+  .step .body span{font-size:14px;color:var(--muted)}
+  .turn{
+    margin-top:22px;background:linear-gradient(160deg,var(--indigo),var(--indigo-2));
+    color:var(--cream);border-radius:16px;padding:20px 20px 20px 22px;
+    border-left:3px solid var(--gold);
+  }
+  .turn .t-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:8px}
+  .turn p{font-size:15px;color:rgba(247,242,231,.9)}
+  .turn p strong{color:#fff}
+
+  /* ---------- the tools ---------- */
+  .tools{background:var(--cream)}
+  .tools h2{font-family:"Fraunces",serif;font-weight:600;font-size:24px;color:var(--indigo);margin-bottom:6px;letter-spacing:-.01em}
+  .tools .lead{font-size:14.5px;color:var(--muted);margin-bottom:20px}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    padding:18px;margin-bottom:14px;cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .card:active{transform:scale(.99)}
+  .card.open{border-color:var(--gold);box-shadow:0 14px 34px -24px rgba(217,165,33,.7)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .name{font-family:"Fraunces",serif;font-weight:600;font-size:18px;color:var(--indigo)}
+  .card .status{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .status.live{background:rgba(34,139,87,.12);color:#1d7a4d}
+  .status.proto{background:rgba(217,165,33,.16);color:#9a7411}
+  .status.dev{background:rgba(93,100,120,.14);color:#5d6478}
+  .card .tag{font-size:14.5px;color:#3a4156;margin-top:9px}
+  .card .more{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .card.open .more{max-height:200px}
+  .card .more p{font-size:13.5px;color:var(--muted);margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
+  .card .more a{color:var(--gold);font-weight:600;text-decoration:none;font-size:13.5px}
+  .hint{font-size:12px;color:var(--muted);text-align:center;font-style:italic;margin-top:4px}
+
+  /* ---------- credentials ---------- */
+  .creds{background:var(--paper)}
+  .creds h2{font-family:"Fraunces",serif;font-weight:600;font-size:22px;color:var(--indigo);margin-bottom:16px;letter-spacing:-.01em}
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cell{background:var(--cream);border-radius:12px;padding:13px 14px}
+  .cell .big{font-family:"Fraunces",serif;font-weight:600;font-size:15px;color:var(--indigo);line-height:1.2}
+  .cell .small{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .cell.wide{grid-column:1 / -1}
+
+  /* ---------- the ask ---------- */
+  .ask{
+    background:linear-gradient(165deg,var(--indigo) 0%,var(--ink) 100%);
+    color:var(--cream);padding-bottom:34px;
+  }
+  .ask .kicker{color:var(--gold-soft)}
+  .ask .kicker::before{background:var(--gold-soft)}
+  .ask h2{font-family:"Fraunces",serif;font-weight:500;font-size:23px;line-height:1.25;margin-bottom:14px;color:#fff}
+  .ask p{font-size:15px;color:rgba(247,242,231,.85);margin-bottom:24px;max-width:40ch}
+
+  .actions{display:flex;flex-direction:column;gap:11px}
+  .btn{
+    display:flex;align-items:center;gap:13px;
+    text-decoration:none;border-radius:14px;padding:15px 18px;
+    font-size:15.5px;font-weight:600;transition:transform .15s ease,filter .15s ease;
+  }
+  .btn:active{transform:scale(.985)}
+  .btn .ic{font-size:19px;line-height:1;width:24px;text-align:center}
+  .btn.primary{background:var(--gold);color:var(--ink)}
+  .btn.primary:hover{filter:brightness(1.04)}
+  .btn.ghost{background:rgba(247,242,231,.08);color:var(--cream);border:1px solid rgba(247,242,231,.22)}
+  .btn .lbl small{display:block;font-weight:400;font-size:12px;opacity:.7;letter-spacing:0}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:rgba(247,242,231,.6);padding:22px 26px 30px 50px;font-size:12.5px;position:relative;z-index:2}
+  footer .brand{font-family:"Fraunces",serif;color:var(--gold-soft);font-size:15px;font-weight:600;margin-bottom:6px}
+  footer a{color:rgba(247,242,231,.78);text-decoration:none}
+  footer .row{margin-top:4px}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  @media print{
+    body{background:#fff}
+    .wrap{box-shadow:none;max-width:100%}
+    .card .more{max-height:none!important}
+    .actions{display:none}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="thread" aria-hidden="true"></span>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="thread-dot" aria-hidden="true"></span>
+    <div class="eyebrow">For Dr. Charlotte Danley &middot; Instructional Leadership &middot; Memphis-Shelby County Schools</div>
+    <h1>Hello, Dr. Danley &mdash; <em>I'm glad you clicked.</em></h1>
+    <p class="sub">This page was personalized for you &mdash; a small, living example of what building with
+    artificial intelligence makes possible. The bigger idea: put the data collection
+    <strong>in the teacher's hand</strong>, give teachers their time back, and give it back to the children.</p>
+    <div class="who">
+      <strong>Eli M. Davis, M.S.</strong> &mdash; I train people in artificial intelligence &middot; Ph.D. Candidate, Teaching &amp; Learning, University of South Carolina &middot; Founder, <strong>4 Black Centuries LLC</strong>
+    </div>
+  </section>
+
+  <!-- THE NOTE -->
+  <section class="salute reveal">
+    <div class="kicker">A quick thank-you</div>
+    <h2>Thank you for your time on a Saturday, Dr. Danley.</h2>
+    <p>I know a Saturday is precious, and I do not take it for granted that you heard me out. And congratulations &mdash; I saw you have stepped into a new role coaching instructional leaders across the district. Memphis principals are about to be better supported.</p>
+    <p>Our conversation stayed with me. We named the same gap: <strong>PBIS only works if the data gets collected</strong> &mdash; and teachers do not have the time to sit and document while they are also teaching, redirecting, and caring for thirty children at once. Y&rsquo;all carry it under the RTI&sup2;-B name; the gap is the same gap.</p>
+    <p class="warm">And we named the opening: with artificial intelligence, we can now do something we have never been able to do before.</p>
+  </section>
+
+  <!-- THE MOMENT -->
+  <section class="salute reveal">
+    <div class="kicker">The moment we are in</div>
+    <h2>This time, we are here at the beginning.</h2>
+    <p>Historically, Black folks have found ourselves on the outside of burgeoning technology &mdash; arriving after the rules were written, paying rent on tools built elsewhere. This moment is different. Artificial intelligence is coded through <strong>language</strong> now, and language is what we carry. We have the chance to grab this technology at the very moment it is developing itself &mdash; to be builders in it, not just users of it.</p>
+    <p class="warm">There is a setup to learn, real things you have to know. Teaching that setup is what I do.</p>
+  </section>
+
+  <!-- THE IDEA -->
+  <section class="idea reveal">
+    <h2>The idea, plainly.</h2>
+    <p class="lead">Move the documentation off the teacher's desk and into agentic AI &mdash; running on the phone already in their hand.</p>
+
+    <div class="flow">
+      <div class="step"><span class="num">1</span><div class="body"><strong>The teacher speaks the moment.</strong><span>Talk-to-text in seconds, in the hallway, with the child still in front of them. No keyboard, no end-of-day backlog.</span></div></div>
+      <div class="step"><span class="num">2</span><div class="body"><strong>The agent collects and aggregates.</strong><span>AI organizes the data, tracks the pattern, and routes it where it needs to go &mdash; school-specific, teacher-specific, student-specific, at lightspeed.</span></div></div>
+      <div class="step"><span class="num">3</span><div class="body"><strong>The documentation writes itself.</strong><span>The agent drafts the reports and the paperwork the system requires, so the record is more complete, not less.</span></div></div>
+    </div>
+
+    <div class="turn">
+      <div class="t-label">The point</div>
+      <p>This lets a teacher be <strong>student-centered, not data-centered</strong> &mdash; while the data we collect becomes more authentic, more usable, and more true. Better records <em>and</em> more time with children. We no longer have to choose.</p>
+    </div>
+  </section>
+
+  <!-- THE ROLE SHIFT -->
+  <section class="salute reveal">
+    <div class="kicker">Where this goes</div>
+    <h2>The curriculum specialist becomes the AI specialist.</h2>
+    <p>As this technology enters the classroom, the most valuable person in the building is someone who holds <strong>both</strong>: deep curriculum expertise <em>and</em> a working understanding of how to build and direct agentic AI. An AI specialist sitting alongside teachers would be transformative.</p>
+    <p class="warm">That is the role I am built for &mdash; and the work I am already doing.</p>
+  </section>
+
+  <!-- IMMEDIACY -->
+  <section class="idea reveal">
+    <h2>Built in the immediacy of the need.</h2>
+    <p class="lead">Not bought off a shelf from a vendor &mdash; built inside the building, on the school&rsquo;s own data, its own roster, its own intention. Teaching comes out from behind the desktop and into the hand, where the students are. A few needs your buildings already know:</p>
+
+    <div class="flow">
+      <div class="step"><span class="num">1</span><div class="body"><strong>The pedagogical gap.</strong><span>We keep bringing people into classrooms without teacher preparation, believing anyone can teach. Most people can learn to &mdash; if they can reach the strategies research has shown to work. Picture an agentic coach a newer teacher can ask questions of all day, aligned to the district&rsquo;s own preparation and intention, so they always know where the work is headed.</span></div></div>
+      <div class="step"><span class="num">2</span><div class="body"><strong>Differentiation, on demand.</strong><span>A specialist sees teachers struggling to differentiate for multilingual learners &mdash; and stands up a tool for that exact hallway, that exact week. Local. Immediate.</span></div></div>
+      <div class="step"><span class="num">3</span><div class="body"><strong>The paperwork that runs a school.</strong><span>Agentic AI gathers, organizes, and prints what the district requires &mdash; the binders, the forms, the Friday recognition list read over the loudspeaker &mdash; from moments the adults already captured in three taps.</span></div></div>
+    </div>
+  </section>
+
+  <!-- THE TOOLS -->
+  <section class="tools reveal">
+    <h2>This is not a slide. It is already running.</h2>
+    <p class="lead">Three live products under 4 Black Centuries LLC. Tap any one to see more.</p>
+
+    <div class="card" data-card>
+      <div class="top"><span class="name">GoodCatch</span><span class="status live">Live &middot; grant-submitted</span></div>
+      <p class="tag">&ldquo;Catch them being good.&rdquo; The recognition-first behavior platform &mdash; three-tap logging, restorative documentation, one-tap AI reports, and a note home the same day.</p>
+      <div class="more"><p>The direct answer to the PBIS / RTI&sup2;-B data gap. FERPA-first, built by an educator. Submitted for a $75,000 Alabama Launchpad grant; Birmingham pilot targeted August 2026. Twenty-six educators across five states have already weighed in through a two-minute survey that lives inside the app &mdash; <strong>I would be honored to have your read too:</strong> <a href="https://app.goodcatchapp.com/pulse" target="_blank" rel="noopener">app.goodcatchapp.com/pulse &rarr;</a></p></div>
+    </div>
+
+    <div class="card" data-card>
+      <div class="top"><span class="name">Giovanna</span><span class="status live">Live in production</span></div>
+      <p class="tag">&ldquo;Understand the patterns behind your child&rsquo;s hardest moments.&rdquo; A privacy-first companion for families of neurodivergent children.</p>
+      <div class="more"><p>Log behaviors, spot triggers, and share clear insights with a child&rsquo;s care team &mdash; privacy built in from the start. Proof the data-collection engine works in real families&rsquo; hands.</p></div>
+    </div>
+
+    <div class="card" data-card>
+      <div class="top"><span class="name">ECHO</span><span class="status dev">In development</span></div>
+      <p class="tag">&ldquo;Evidence, Culture, Healing, Outcomes.&rdquo; A tutoring intelligence platform that learns the child before it teaches the child.</p>
+      <div class="more"><p>AI proposes; the human witnesses. The same sovereign design principle that runs through all of this work &mdash; the machine carries, the educator decides.</p></div>
+    </div>
+    <p class="hint">All three built by a working teacher &mdash; from inside the classroom, not a vendor&rsquo;s office.</p>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section class="creds reveal">
+    <h2>Who I am, briefly.</h2>
+    <div class="cgrid">
+      <div class="cell wide"><div class="big">Used live by the National Board</div><div class="small">Built and ran the AI-powered Living Evidence platform that analyzed the National Board for Professional Teaching Standards&rsquo; multi-day focus-group and roundtable data for its Literacy / Reading&ndash;Language Arts Standards revision &mdash; findings carried to its Standards Revision Committee (with Dr. Teaira McMurtry, UAB).</div></div>
+      <div class="cell"><div class="big">Ph.D. Candidate</div><div class="small">Teaching &amp; Learning, University of South Carolina &middot; comps passed with Honors</div></div>
+      <div class="cell"><div class="big">Originator, EC</div><div class="small">Epigenetic Consciousness framework; published &amp; peer-reviewed</div></div>
+      <div class="cell"><div class="big">Fulbright-Hays &times;2</div><div class="small">Nigeria (2022) &amp; Barbados (2023), U.S. Dept. of Education</div></div>
+      <div class="cell"><div class="big">Harvard</div><div class="small">Race, Equity &amp; Leadership, The Principals&rsquo; Center</div></div>
+      <div class="cell"><div class="big">~16 years</div><div class="small">Special education, MTSS/PST chair, building leadership</div></div>
+      <div class="cell"><div class="big">AI builder</div><div class="small">Adjunct at Miles College; BoodleBox AI Leadership Council</div></div>
+      <div class="cell wide"><div class="big">Founder, 4 Black Centuries LLC</div><div class="small">An education technology venture &mdash; GoodCatch, Giovanna, and ECHO. Full record in the CV below.</div></div>
+    </div>
+  </section>
+
+  <!-- THE ASK -->
+  <section class="ask reveal">
+    <div class="kicker">The ask</div>
+    <h2>I would love to bring this to Memphis-Shelby County Schools.</h2>
+    <p>As a contractor and partner &mdash; standing up agentic data collection in classrooms, and helping define what the AI specialist role looks like for your teachers. Reach me directly below.</p>
+
+    <div class="actions">
+      <a class="btn primary" href="tel:+14149759450"><span class="ic">&#9742;</span><span class="lbl">Call or text me<small>(414) 975-9450</small></span></a>
+      <a class="btn ghost" href="mailto:hello@goodcatchapp.com?subject=Memphis-Shelby%20County%20Schools%20%E2%80%94%20following%20up"><span class="ic">&#9993;</span><span class="lbl">Email me<small>hello@goodcatchapp.com</small></span></a>
+      <a class="btn ghost" href="./E_Davis_CV.pdf" target="_blank" rel="noopener"><span class="ic">&#128196;</span><span class="lbl">View my full CV<small>Education, publications, ventures</small></span></a>
+      <a class="btn ghost" href="https://elimdavis.com" target="_blank" rel="noopener"><span class="ic">&#127760;</span><span class="lbl">My scholar site<small>elimdavis.com</small></span></a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand">Eli M. Davis &middot; 4 Black Centuries LLC</div>
+    <div class="row">Ph.D. Candidate, University of South Carolina</div>
+    <div class="row"><a href="tel:+14149759450">(414) 975-9450</a> &middot; <a href="mailto:hello@goodcatchapp.com">hello@goodcatchapp.com</a></div>
+    <div class="row"><a href="https://elimdavis.com" target="_blank" rel="noopener">elimdavis.com</a> &middot; <a href="https://goodcatchapp.com" target="_blank" rel="noopener">goodcatchapp.com</a></div>
+  </footer>
+</div>
+
+<script>
+  // tap-to-expand tool cards
+  document.querySelectorAll('[data-card]').forEach(function(c){
+    c.addEventListener('click',function(){ c.classList.toggle('open'); });
+  });
+  // gentle reveal on scroll
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>
