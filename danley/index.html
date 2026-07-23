@@ -360,16 +360,85 @@
   </footer>
 </div>
 
+<style>
+  /* ---- guided walk (one section at a time) ---- */
+  .step-off{display:none !important;}
+  .stepchip{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin:0 0 10px;}
+  .stepnav{position:sticky;bottom:0;z-index:9;background:rgba(22,33,62,.97);
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;
+    justify-content:space-between;gap:12px;border-top:2px solid var(--gold);}
+  .stepnav .dots{display:flex;gap:6px;flex:1;justify-content:center;}
+  .stepnav .dot{width:7px;height:7px;border-radius:50%;background:rgba(247,242,231,.25);transition:all .2s;}
+  .stepnav .dot.on{background:var(--gold);width:20px;border-radius:4px;}
+  .stepnav button{font:inherit;font-weight:700;border:0;border-radius:10px;cursor:pointer;min-height:46px;padding:0 18px;}
+  .stepnav .next{background:var(--gold);color:#16213e;font-size:16px;}
+  .stepnav .back{background:transparent;color:rgba(247,242,231,.7);font-size:14px;}
+  .stepnav .back[disabled]{opacity:.25;cursor:default;}
+  @media (prefers-reduced-motion: reduce){ .stepnav .dot{transition:none;} }
+  noscript ~ .wrap section{display:block !important;}
+</style>
 <script>
   // tap-to-expand tool cards
   document.querySelectorAll('[data-card]').forEach(function(c){
     c.addEventListener('click',function(){ c.classList.toggle('open'); });
   });
-  // gentle reveal on scroll
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  // ---- the guided walk: one section per click, a short line naming each ----
+  (function(){
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.wrap > section'));
+    if (steps.length < 2) return;
+    var intros = [
+      "Start here",
+      "A quick thank-you, and a congratulations",
+      "The moment we are in",
+      "The idea, in three steps",
+      "Where this goes",
+      "Built in the immediacy of the need",
+      "Already running — tap any product",
+      "Who I am, briefly",
+      "The ask: fifteen minutes"
+    ];
+    // Chip atop each step: "2 of 9 · A quick thank-you..."
+    steps.forEach(function(s, i){
+      var chip = document.createElement('div');
+      chip.className = 'stepchip';
+      chip.textContent = (i+1) + ' of ' + steps.length + ' · ' + (intros[i] || '');
+      s.insertBefore(chip, s.firstChild);
+    });
+    // Sticky nav: Back · dots · Next
+    var nav = document.createElement('div');
+    nav.className = 'stepnav';
+    nav.innerHTML = '<button class="back" type="button">&larr; Back</button>' +
+      '<div class="dots">' + steps.map(function(){return '<span class="dot"></span>';}).join('') + '</div>' +
+      '<button class="next" type="button">Next &rarr;</button>';
+    document.body.appendChild(nav);
+    var backBtn = nav.querySelector('.back'), nextBtn = nav.querySelector('.next');
+    var dots = Array.prototype.slice.call(nav.querySelectorAll('.dot'));
+    var i = 0;
+    function show(n){
+      i = Math.max(0, Math.min(steps.length - 1, n));
+      steps.forEach(function(s, j){
+        s.classList.toggle('step-off', j !== i);
+        if (j === i) s.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+        if (j === i && s.classList.contains('reveal')) s.classList.add('in');
+      });
+      dots.forEach(function(d, j){ d.classList.toggle('on', j === i); });
+      backBtn.disabled = i === 0;
+      nextBtn.textContent = i === steps.length - 1 ? 'Reach me →' : 'Next →';
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+    nextBtn.addEventListener('click', function(){
+      if (i === steps.length - 1) {
+        var call = document.querySelector('.ask .btn.primary');
+        if (call) call.click();
+        return;
+      }
+      show(i + 1);
+    });
+    backBtn.addEventListener('click', function(){ show(i - 1); });
+    show(0);
+  })();
 </script>
 </body>
 </html>
